@@ -2,14 +2,18 @@ import java.util.Scanner;
 
 public class Userinterface {
 
-   public void startProgram() {
-       Scanner scanner = new Scanner(System.in);
-       boolean kører = true;
-       System.out.println("""
-               """);
+    private Controller controller = new Controller();
+    Scanner scanner = new Scanner(System.in);
+    Boolean dataChanged = false;
 
-       while (userChoice != 9) {
-           System.out.println("""                  
+    public void startProgram() throws FileNotFoundException {
+        int userChoice = -1;
+
+        System.out.println("Welcome to the hero collector\n" +
+                "________________________________");
+
+        while (userChoice != 9) {
+            System.out.println("""                  
                     1. Add Superhero.
                     2. Access The Superhero List
                     3. Search For Superheroes
@@ -18,14 +22,14 @@ public class Userinterface {
                     9. End Program
                     """);
 
-           userChoice = scanner.nextInt();
-           scanner.nextLine(); // Håndtering af Scanner bug
-           UserChoice(userChoice);
-           if (dataChanged) {
-               controller.saveData();
-           }
-       }
-   }
+            userChoice = scanner.nextInt();
+            scanner.nextLine(); // Håndtering af Scanner bug
+            UserChoice(userChoice);
+            if (dataChanged) {
+                controller.saveData();
+            }
+        }
+    }
 
     // Brugerens valgmuligheder i menuen
 
@@ -93,5 +97,4 @@ public class Userinterface {
         double strength = readDouble();
         controller.database.addSuperheroes(name, isHuman, power, year, strength);
     }
-
 }
