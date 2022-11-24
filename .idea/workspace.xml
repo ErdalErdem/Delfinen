@@ -5,8 +5,10 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="48de46a6-2e17-402d-9db8-9c49905a0da6" name="Changes" comment="Projekt start">
-      <change afterPath="$PROJECT_DIR$/src/main/java/Delfinen.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/Medlem.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/Delfinen.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Delfinen.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/Userinterface.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Userinterface.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -49,6 +51,7 @@
       <updated>1668678207099</updated>
       <workItem from="1668678208996" duration="566000" />
       <workItem from="1669288989516" duration="1423000" />
+      <workItem from="1669291878346" duration="1083000" />
     </task>
     <task id="LOCAL-00001" summary="Projekt start">
       <created>1668678267967</created>
