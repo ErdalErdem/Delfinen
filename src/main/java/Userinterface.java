@@ -1,4 +1,7 @@
+import java.util.Scanner;
+
 public class Userinterface {
+
     Scanner scanner = new Scanner(System.in);
 
     public void userChoice(int userChoice) {
@@ -25,3 +28,4 @@ public class Userinterface {
 
         }
     }
+}
