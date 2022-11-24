@@ -1,14 +1,10 @@
-import java.util.Scanner;
-
 public class Userinterface {
     Scanner scanner = new Scanner(System.in);
 
     public void userChoice(int userChoice) {
         userChoice = -1;
         System.out.println("Velkommen til Delfinen! \n" +
-                "_______________");
-
-        //dada
+                "_____________");
 
         while (userChoice != 9) {
             System.out.println("""                  
@@ -29,8 +25,3 @@ public class Userinterface {
 
         }
     }
-
-
-
-
-}
