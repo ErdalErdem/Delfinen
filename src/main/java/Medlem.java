@@ -9,12 +9,13 @@ public class Medlem {
     private String navn;
     private int alder;
     private String køn;
+    private typeMedlem medlemType;
 
-
-    public Medlem(String navn, int alder, String køn) {
+    public Medlem(String navn, int alder, String køn, typeMedlem medlemType) {
         this.navn = navn;
         this.alder = alder;
         this.køn = køn;
+        this.medlemType = medlemType;
     }
 
     public String getNavn() {

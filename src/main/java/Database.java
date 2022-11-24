@@ -4,8 +4,8 @@ public class Database {
 
     private ArrayList<Medlem> medlemDB = new ArrayList<>();
 
-    public void tilfoejMedlem(String navn, int alder, String køn) {
-        Medlem medlem = new Medlem(navn, alder, køn);
+    public void tilfoejMedlem(String navn, int alder, String køn, Medlem.typeMedlem medlemstype) {
+        Medlem medlem = new Medlem(navn, alder, køn, medlemstype);
         medlemDB.add(medlem);
     }
 
@@ -18,8 +18,8 @@ public class Database {
         return null;
     }
 
-    public void redigerMedlem (String navn, int alder, String køn) {
-        Medlem medlem = new Medlem(navn, alder, køn);
+    public void redigerMedlem (String navn, int alder, String køn, Medlem.typeMedlem medlemstype) {
+        Medlem medlem = new Medlem(navn, alder, køn, medlemstype);
     }
 
     public void sletMedlem (String navn){

@@ -11,7 +11,7 @@ public class Userinterface {
 
         while (userChoice != 9) {
             System.out.println("""                  
-                    1. Opret medlemmer 
+                    1. Opret medlemmer
                     2. Liste af medlemmere
                     3. Redigering af medlemmere
                     4. Slette medlemmere
