@@ -2,30 +2,40 @@ import java.util.Scanner;
 
 public class Userinterface {
 
-    Scanner scanner = new Scanner(System.in);
+   public void startProgram() {
+       Scanner scanner = new Scanner(System.in);
+       boolean kører = true;
+       System.out.println("""
+               """);
 
-    public void userChoice(int userChoice) {
-        userChoice = -1;
-        System.out.println("Velkommen til Delfinen! \n" +
-                "_____________");
+       while (kører) {
+           System.out.println("enter command");
+           String userInput = scanner.nextLine().toLowerCase();
 
-        while (userChoice != 9) {
-            System.out.println("""                  
-                    1. Opret medlemmer
-                    2. Liste af medlemmere
-                    3. Redigering af medlemmere
-                    4. Slette medlemmere
-                    5. Tilføj medlemmere
-                    9. Afslut program
-                                     
-                                        
-                    """);
+           // Array og splitter
 
-            userChoice = scanner.nextInt();
-            scanner.nextLine(); // Håndtering af Scanner bug
-            userChoice(userChoice);
+           String[] userInputs = userInput.split(" ");
+           String command = userInputs[0];
+           String userChoice = "";
+
+           if(userInputs.length > 1) {
+               userChoice = userInputs[1];
+           }
+
+           // switch case
+           switch (command) {
+               case "Tilføj, tilføj":
+                   System.out.println("Navn på medlem:");
+                   String navn = scanner.nextLine();
+
+                   System.out.println("Alder på medlem:");
+                   int alder = scanner.nextInt();
+
+                   System.out.println("Køn på medlem:");
+                   String køn = scanner.nextLine();
+           }
 
 
-        }
-    }
+       }
+   }
 }
