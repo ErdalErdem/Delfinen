@@ -17,8 +17,8 @@ public class Userinterface {
                     4. Slette medlemmere
                     5. Tilføj medlemmere
                     9. Afslut program
-                 
-                    
+                                     
+                                        
                     """);
 
             userChoice = scanner.nextInt();
