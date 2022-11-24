@@ -1,14 +1,19 @@
 public class Medlem {
+    public enum typeMedlem {
+        junior,
+        senior,
+        passiv,
+        aktiv
+    }
+
     private String navn;
     private int alder;
     private String køn;
-    private boolean typeMedlemskab;
 
-    public Medlem(String navn, int alder, String køn, boolean typeMedlemskab) {
+    public Medlem(String navn, int alder, String køn) {
         this.navn = navn;
         this.alder = alder;
         this.køn = køn;
-        this.typeMedlemskab = typeMedlemskab;
     }
 
     public String getNavn() {
@@ -33,16 +38,9 @@ public class Medlem {
     public void setKøn(String køn) {
         this.køn = køn;
     }
-    public boolean getTypeMedlemskab() {
-        return typeMedlemskab;
-    }
-    public void setTypeMedlemskab(boolean typeMedlemskab) {
-        this.typeMedlemskab = typeMedlemskab;
-    }
-
 
     public String toString() {
-        return "Navn:" + " " + navn + "\nAlder:" + " " + alder + "\nKøn:" + køn + "\nType medlemskab:" + typeMedlemskab;
+        return "Navn:" + " " + navn + "\nAlder:" + " " + alder + "\nKøn:" + køn;
     }
 
 }
