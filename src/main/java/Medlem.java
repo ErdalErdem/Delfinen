@@ -10,6 +10,7 @@ public class Medlem {
     private int alder;
     private String køn;
 
+
     public Medlem(String navn, int alder, String køn) {
         this.navn = navn;
         this.alder = alder;
