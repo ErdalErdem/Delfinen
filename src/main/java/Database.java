@@ -4,6 +4,10 @@ public class Database {
 
     private ArrayList<Medlem> medlemDB = new ArrayList<>();
 
+    public ArrayList<Medlem> getMedlemDB() {
+        return getMedlemDB();
+    }
+
     public void tilfoejMedlem(String navn, int alder, String køn, Medlem.typeMedlem medlemstype) {
         Medlem medlem = new Medlem(navn, alder, køn, medlemstype);
         medlemDB.add(medlem);
