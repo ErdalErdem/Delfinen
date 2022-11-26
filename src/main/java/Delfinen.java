@@ -1,8 +1,6 @@
 public class Delfinen {
 
-    public Delfinen() {
-
-    }
-
+    public Database database = new Database();
+    //FileHandler fileHandler = new FileHandler();
 
 }

@@ -41,8 +41,16 @@ public class Medlem {
         this.køn = køn;
     }
 
+    public typeMedlem getMedlemType(){
+        return medlemType;
+    }
+
+    public void setMedlemType(typeMedlem medlemType) {
+        this.medlemType = medlemType;
+    }
+
     public String toString() {
-        return "Navn:" + " " + navn + "\nAlder:" + " " + alder + "\nKøn:" + køn;
+        return "Navn: " + navn + " \nAlder: " + alder + " \nKøn: " + køn + " \nType medlemsskab: " + medlemType;
     }
 
 }

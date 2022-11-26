@@ -17,9 +17,9 @@ public class Database {
     }
 
     public Medlem findMedlem(String navn){
-        for (Medlem medlem : medlemDB){
-            if (medlem.getNavn().equals(navn)){
-                return medlem;
+        for (Medlem m : medlemDB){
+            if (m.getNavn().equals(navn)){
+                return m;
             }
         }
         return null;
@@ -30,7 +30,8 @@ public class Database {
     }
 
     public void sletMedlem (String navn){
-        for (Medlem medlem : medlemDB){
+        for (int i = 0; i < medlemDB.size(); i++){
+            Medlem medlem = medlemDB.get(i);
             if (medlem.getNavn().equals(navn)){
                 medlemDB.remove(medlem);
             }
