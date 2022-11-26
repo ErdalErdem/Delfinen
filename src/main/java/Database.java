@@ -3,14 +3,17 @@ import java.util.ArrayList;
 public class Database {
 
     private ArrayList<Medlem> medlemDB = new ArrayList<>();
-
+    public Database() {
+        ArrayList<Medlem> medlemDB;
+    }
     public ArrayList<Medlem> getMedlemDB() {
-        return getMedlemDB();
+        return medlemDB;
     }
 
+
     public void tilfoejMedlem(String navn, int alder, String køn, Medlem.typeMedlem medlemstype) {
-        Medlem medlem = new Medlem(navn, alder, køn, medlemstype);
-        medlemDB.add(medlem);
+        medlemDB.add(new Medlem(navn, alder, køn, medlemstype ));
+
     }
 
     public Medlem findMedlem(String navn){

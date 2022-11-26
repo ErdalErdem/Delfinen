@@ -3,6 +3,7 @@ import java.util.Scanner;
 public class Userinterface {
     private Database database = new Database();
     private Medlem medlem;
+
     Scanner scanner;
 
     public void startProgram() {
@@ -24,7 +25,7 @@ public class Userinterface {
 
             switch (menuValg) {
                 case 1:
-                    tiloejMedlem();
+                    tilfoejMedlem();
                     break;
                 case 2:
                     visMedlemmer();
@@ -35,7 +36,7 @@ public class Userinterface {
         } while (menuValg != 9);
     }
 
-    public void tiloejMedlem() {
+    public void tilfoejMedlem() {
         scanner = new Scanner(System.in);
         System.out.println("Navn:");
         String medlem = scanner.nextLine();
@@ -46,6 +47,14 @@ public class Userinterface {
         scanner = new Scanner(System.in);
         System.out.println("Køn:");
         String køn = scanner.nextLine();
+
+        System.out.println("Type medlem");
+        medlem = scanner.nextLine();
+
+        if (medlem == null) {
+            database.tilfoejMedlem(medlem, alder, køn, Medlem.typeMedlem.junior);
+            System.out.println("\nMedlem:" + medlem);
+        }
     }
 
     public void visMedlemmer() {
