@@ -1,3 +1,4 @@
+import java.io.FileNotFoundException;
 import java.util.Scanner;
 
 public class Userinterface {
@@ -5,9 +6,11 @@ public class Userinterface {
 
     Scanner scanner;
 
-    public void startProgram() {
+    public void startProgram() throws FileNotFoundException {
         scanner = new Scanner(System.in);
-        int menuValg = 0;
+        int menuValg;
+        boolean dataÆndret = false; //Boolean som kun er true hvis man har ændret noget i databasen
+        delfinen.opdaterData(); //Sørger for at programmet ikke overwriter en gammel csv fil
 
         System.out.println("""
                 Velkommen til Delfin svømme klubben.
@@ -24,16 +27,27 @@ public class Userinterface {
             menuValg = readInt();
 
             switch (menuValg) {
-                case 1 ->
+                case 1 -> {
                     tilfoejMedlem();
-                case 2 ->
+                    dataÆndret = true;
+                }
+                case 2 -> {
                     visMedlemmer();
-                case 3 ->
-                    findMedlem();
-                case 4 ->
+                }
+                case 3 ->{
+                    søgMedlem();
+                }
+                case 4 -> {
                     redigerMedlem();
-                case 5 ->
+                    dataÆndret = true;
+                }
+                case 5 -> {
                     sletMedlem();
+                    dataÆndret = true;
+                }
+            }
+            if (dataÆndret) {
+                delfinen.gemData();
             }
         } while (menuValg != 9);
     }
@@ -59,23 +73,17 @@ public class Userinterface {
         }
 
         if (medlemstype != null) {
-            delfinen.database.tilfoejMedlem(navn, alder, køn, medlemstype /*Medlem.typeMedlem.junior*/);
+            delfinen.database.tilfoejMedlem(navn, alder, køn, medlemstype); //Tilføjer medlemmet til databasen
             System.out.println("\nNavn: " + navn + " \nAlder: " + alder  + " \nKøn: "  + køn + " \nType medlemsskab: " + medlemstype);
         }
     }
 
     public void visMedlemmer() {
-        if (delfinen.database.getMedlemDB().isEmpty()) {
-            System.out.println("Intet medlem fundet");
-        } else {
-            for (Medlem m : delfinen.database.getMedlemDB()) {
-                //System.out.println("\nNavn: " + m.getNavn() + " \nAlder: " + m.getAlder()  + " \nKøn: "  + m.getKøn() + " \nType medlemsskab: " + m.getMedlemType());
-                System.out.println(m);
-            }
-        }
+        System.out.println(delfinen.læsData()); //Viser alle medlemmer fra csv filen
     }
 
-    public void findMedlem() {
+
+    public void søgMedlem() {
         System.out.println("Indtast navn på medlem");
         scanner.nextLine(); //Scanner bug
         String navn = scanner.nextLine();
@@ -83,7 +91,6 @@ public class Userinterface {
             Medlem m = delfinen.database.findMedlem(navn);
             if (m != null){
                 System.out.println(m);
-                //System.out.println("\nNavn: " + m.getNavn() + " \nAlder: " + m.getAlder() + " \nKøn: " + m.getKøn() + " \nType medlemsskab: " + m.getMedlemType());
             }
             else {
                 throw new NullPointerException();
@@ -93,6 +100,7 @@ public class Userinterface {
             System.out.println("Medlem kunne ikke findes ");
         }
     }
+
 
     public void redigerMedlem() {
         System.out.println("Indtast navn på medlem");
@@ -152,13 +160,12 @@ public class Userinterface {
         try {
             Medlem m = delfinen.database.findMedlem(navn);
             System.out.println("\nSlettet: " + m.getNavn());
-            delfinen.database.getMedlemDB().remove(m);
+            delfinen.database.sletMedlem(m.getNavn());
         }
         catch (NullPointerException e){
             System.out.println("Medlem kunne ikke findes ");
         }
     }
-
 
     public int readInt() {
         while (!scanner.hasNextInt()) {
