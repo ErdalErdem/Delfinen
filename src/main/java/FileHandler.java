@@ -6,6 +6,15 @@ import java.io.PrintStream;
 public class FileHandler {
 
 
+    public boolean filEksisterer(){
+        boolean filEksistens = false;
+        File f = new File("Delfinen.csv");
+        if (f.exists()){
+            filEksistens = true;
+        }
+        return filEksistens;
+    }
+
     public ArrayList<Medlem> læsData () {
         ArrayList<Medlem> readList = new ArrayList<>();
         try {
