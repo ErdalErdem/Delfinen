@@ -9,8 +9,12 @@ public class Database {
     }
 
 
-    public void tilfoejMedlem(String navn, int alder, String køn, Medlem.typeMedlem medlemstype) {
+/*    public void tilfoejMedlem(String navn, int alder, String køn, Medlem.typeMedlem medlemstype) {
         medlemDB.add(new Medlem(navn, alder, køn, medlemstype ));
+    }*/
+
+    public void tilfoejMedlem(String navn, int fødselsår, int fødselsmåned, int fødselsdag, boolean erAktiv) {
+        medlemDB.add(new Medlem(navn, fødselsår, fødselsmåned, fødselsdag, erAktiv));
     }
 
     public Medlem findMedlem(String navn){
@@ -32,5 +36,12 @@ public class Database {
         }
     }
 
+    public int beregnSamletKontigent() { //Kasserer metode
+        int samletKontigent = 0;
+        for (Medlem m : medlemDB){
+            samletKontigent += m.beregnKontigent();
+        }
+        return samletKontigent;
+    }
 
 }
