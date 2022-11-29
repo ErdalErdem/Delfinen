@@ -1,5 +1,5 @@
-public class KonkurrenceMedlem {
-    public class KonkurrenceInfo extends Medlem {
+public class KonkurrenceMedlem extends Medlem {
+
 
         public enum discipliner {
             butterfly,
@@ -8,8 +8,9 @@ public class KonkurrenceMedlem {
             brystsvømning
         }
 
-        public KonkurrenceInfo(String navn, String fødselsdato, boolean erAktiv) {
+        public KonkurrenceMedlem(String navn, String fødselsdato, boolean erAktiv, String køn) {
             super(navn, fødselsdato, erAktiv);
+            this.køn = køn;
         }
 
         private String køn;
@@ -32,8 +33,5 @@ public class KonkurrenceMedlem {
             this.disciplin = disciplin;
         }
 
-
-
-    }
 
 }
