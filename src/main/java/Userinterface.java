@@ -111,7 +111,7 @@ public class Userinterface {
             }
         }
         else {
-            System.out.println("\nNavn: " + navn + " \nFødselsdato: " + fødselsdato + " \nAktivitet: "  + erAktiv);
+            System.out.println("\nNavn: " + navn + " \nFødselsdato: " + fødselsdato + " \nAktivitet: "  + erAktiv); //Ændre til toString()
             delfinen.database.tilfoejMedlem(navn, fødselsdato, erAktiv);
         }
     }
