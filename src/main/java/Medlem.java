@@ -45,7 +45,7 @@ public class Medlem {
     }
 
     public int beregnAlder(String fødselsdato) {
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd MMM uuuu"); //Dato skal være af format f.eks. '03 Feb 2017'
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/uuuu"); //Dato skal være af format f.eks. '03/02/2017'
         LocalDate fdato = LocalDate.parse(fødselsdato, formatter); //Parser får en instans af localdate
         return Period.between(fdato, LocalDate.now()).getYears();
     }

@@ -1,6 +1,5 @@
 public class KonkurrenceMedlem extends Medlem {
 
-
         public enum discipliner {
             butterfly,
             crawl,
@@ -8,14 +7,15 @@ public class KonkurrenceMedlem extends Medlem {
             brystsvømning
         }
 
-        public KonkurrenceMedlem(String navn, String fødselsdato, boolean erAktiv, String køn) {
+    private String køn;
+
+    private discipliner disciplin;
+
+        public KonkurrenceMedlem(String navn, String fødselsdato, boolean erAktiv, String køn, discipliner disciplin) {
             super(navn, fødselsdato, erAktiv);
             this.køn = køn;
+            this.disciplin = disciplin;
         }
-
-        private String køn;
-
-        private discipliner disciplin;
 
         public String getKøn() {
             return køn;

@@ -84,16 +84,36 @@ public class Userinterface {
         scanner.nextLine();
         String navn = scanner.nextLine();
 
-        System.out.println("Fødselsdato (Format: '03 Feb 2017'): ");
+        System.out.println("Fødselsdato (Format: 'dd/MM/yyyy'): ");
         String fødselsdato = scanner.nextLine();
 
         System.out.println("Er du aktiv?: ");
         boolean erAktiv;
         erAktiv = readBool();
 
-        //delfinen.database.tilfoejMedlem(navn, alder, køn, medlemstype); //Tilføjer medlemmet til databasen
-        System.out.println("\nNavn: " + navn + " \nFødselsdato: " + fødselsdato + " \nAktivitet: "  + erAktiv);
-        delfinen.database.tilfoejMedlem(navn, fødselsdato, erAktiv);
+        System.out.println("Er du konkurrencesvømmer?: ");
+        boolean konkurrenceSvømmer;
+        konkurrenceSvømmer = readBool();
+        if (konkurrenceSvømmer) {
+            System.out.println("Hvad er dit køn?: ");
+            String køn = scanner.nextLine();
+
+            System.out.println("Hvilken svømmedisciplin konkurrerer du i?: ");
+            KonkurrenceMedlem.discipliner disciplin = null;
+            try {
+                disciplin = KonkurrenceMedlem.discipliner.valueOf(scanner.nextLine().toLowerCase());
+                System.out.println(
+                        "\nNavn: " + navn + " \nFødselsdato: " + fødselsdato + " \nAktivitet: "  + erAktiv +
+                                " \nKøn: " + køn + " \nDisciplin " + disciplin);
+                delfinen.database.tilfoejKonkurrenceMedlem(navn, fødselsdato, erAktiv, køn, disciplin);
+            } catch (IllegalArgumentException e) {
+                System.out.println("Disciplintypen findes ikke. \nMedlem kunne ikke oprettes.");
+            }
+        }
+        else {
+            System.out.println("\nNavn: " + navn + " \nFødselsdato: " + fødselsdato + " \nAktivitet: "  + erAktiv);
+            delfinen.database.tilfoejMedlem(navn, fødselsdato, erAktiv);
+        }
     }
 
     public void visMedlemmer() {

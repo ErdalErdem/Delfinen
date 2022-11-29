@@ -18,7 +18,9 @@ public class Database {
         medlemDB.add(new Medlem(navn, fødselsdato, erAktiv));
     }
 
-
+    public void tilfoejKonkurrenceMedlem (String navn, String fødselsdato, boolean erAktiv, String køn, KonkurrenceMedlem.discipliner disciplin) {
+        medlemDB.add(new KonkurrenceMedlem(navn, fødselsdato, erAktiv, køn, disciplin));
+    }
 
     public Medlem findMedlem(String navn){
         for (Medlem m : medlemDB){
