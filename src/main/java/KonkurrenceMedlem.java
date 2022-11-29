@@ -1,18 +1,18 @@
 public class KonkurrenceMedlem extends Medlem {
 
-        public enum discipliner {
-            butterfly,
-            crawl,
-            rygcrawl,
-            brystsvømning
+        public enum Discipliner {
+            BUTTERFLY,
+            CRAWL,
+            RYGCRAWL,
+            BRYSTSVØMNING
         }
 
     private String køn;
 
-    private discipliner disciplin;
+    private Discipliner disciplin;
 
-        public KonkurrenceMedlem(String navn, String fødselsdato, boolean erAktiv, String køn, discipliner disciplin) {
-            super(navn, fødselsdato, erAktiv);
+        public KonkurrenceMedlem(String navn, String fødselsdato, String email, boolean erAktiv, String køn, Discipliner disciplin) {
+            super(navn, fødselsdato, email, erAktiv);
             this.køn = køn;
             this.disciplin = disciplin;
         }
@@ -25,13 +25,18 @@ public class KonkurrenceMedlem extends Medlem {
             this.køn = køn;
         }
 
-        public discipliner getDiscipliner(){
+        public Discipliner getDiscipliner(){
             return disciplin;
         }
 
-        public void setDisciplin(discipliner disciplin) {
+        public void setDisciplin(Discipliner disciplin) {
             this.disciplin = disciplin;
         }
 
+    @Override
+    public String toString() {
+        return "Navn: " + getNavn() + " \nFødselsdato: " + getFødselsdato() + " \nE-mail: " + getEmail() + " \nAlder: " + getAlder() +
+                " \nAktivitet: " + getErAktiv() + " \nKøn: " + køn + " \nDisciplin: " + disciplin;
+    }
 
 }

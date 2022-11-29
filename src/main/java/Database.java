@@ -8,18 +8,12 @@ public class Database {
         return medlemDB;
     }
 
-
-/*    public void tilfoejMedlem(String navn, int alder, String køn, Medlem.typeMedlem medlemstype) {
-        medlemDB.add(new Medlem(navn, alder, køn, medlemstype ));
-    }*/
-
-
-    public void tilfoejMedlem(String navn, String fødselsdato, boolean erAktiv) {
-        medlemDB.add(new Medlem(navn, fødselsdato, erAktiv));
+    public void tilfoejMedlem(Medlem m) {
+        medlemDB.add(m);
     }
 
-    public void tilfoejKonkurrenceMedlem (String navn, String fødselsdato, boolean erAktiv, String køn, KonkurrenceMedlem.discipliner disciplin) {
-        medlemDB.add(new KonkurrenceMedlem(navn, fødselsdato, erAktiv, køn, disciplin));
+    public void tilfoejKonkurrenceMedlem (KonkurrenceMedlem km) {
+        medlemDB.add(km);
     }
 
     public Medlem findMedlem(String navn){

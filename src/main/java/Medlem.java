@@ -15,15 +15,15 @@ public class Medlem {
     private String navn;
     private int alder; //Ændr til fødselsdato
     private String fødselsdato;
-    //private String køn; //Kun relevant for konkurrencesvømmere
-    private boolean erAktiv;
-    //private KonkurrenceMedlem info; //Til konkurrenceinfo klassen. Hvis dette er null er medlemmet motionist.
-    //    private typeMedlem medlemType;
 
-    public Medlem(String navn, String fødselsdato, boolean erAktiv) {
+    private String email;
+    private boolean erAktiv;
+
+
+    public Medlem(String navn, String fødselsdato, String email, boolean erAktiv) {
         this.navn = navn;
-        //LocalDate fdato = LocalDate.parse(fødselsdato); //Parser får en instans af localdate, f.eks.: 1992-08-11
         this.fødselsdato = fødselsdato;
+        this.email = email;
         this.alder = beregnAlder(this.fødselsdato); //Bruges til kontigent/statistik, bruges ikke i brugeroverfladen
         this.erAktiv = erAktiv;
     }
@@ -44,6 +44,14 @@ public class Medlem {
         this.fødselsdato = dato;
     }
 
+    public String getEmail () {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
     public int beregnAlder(String fødselsdato) {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/uuuu"); //Dato skal være af format f.eks. '03/02/2017'
         LocalDate fdato = LocalDate.parse(fødselsdato, formatter); //Parser får en instans af localdate
@@ -62,26 +70,6 @@ public class Medlem {
         this.erAktiv = bool;
     }
 
-/*    public String getKøn() {
-        return køn;
-    }
-
-    public void setKøn(String køn) {
-        this.køn = køn;
-    }*/
-
-/*    public typeMedlem getMedlemType(){
-        return medlemType;
-    }
-
-    public void setMedlemType(typeMedlem medlemType) {
-        this.medlemType = medlemType;
-    }*/
-
-/*    public String toString() {
-        return "Navn: " + navn + " \nAlder: " + alder + " \nKøn: " + køn + " \nType medlemsskab: " + medlemType;
-    }*/
-
     public int beregnKontigent() {
         int kontigent;
         if (alder < 18){ //Junior
@@ -99,8 +87,9 @@ public class Medlem {
         return kontigent;
     }
 
+    @Override
     public String toString() {
-        return "Navn: " + navn + " \nFødselsdato: " + fødselsdato + " \nAlder: " + alder + " \nAktivitet: " + erAktiv;
+        return "Navn: " + navn + " \nFødselsdato: " + fødselsdato + " \nE-mail: " + email +  " \nAlder: " + alder + " \nAktivitet: " + erAktiv;
     }
 
 }

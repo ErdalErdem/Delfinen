@@ -22,13 +22,31 @@ public class FileHandler {
             while (sc.hasNextLine()){
                 String line = sc.nextLine();
                 String[] attributes = line.split(";"); //Splitter alle ";" af strenge i arrayet
-                Medlem readMedlem = new Medlem(
-                        attributes[0], //Denne attribut er navn
-                        attributes[1], //Fødselsår
-                        Boolean.parseBoolean(attributes[2]));
-                //attributes[2], //Køn
-                //Medlem.typeMedlem.valueOf(attributes[3])); //Enum, type medlemsskab
-                readList.add(readMedlem);
+                boolean success;
+                try {
+                    Medlem readMedlem = new KonkurrenceMedlem(
+                            attributes[0], //Denne attribut er navn
+                            attributes[1], //Fødselsår
+                            attributes[2], //E-mail addresse
+                            Boolean.parseBoolean(attributes[3]), //Er medlemmet aktiv
+                            attributes[4], //Medlemmets køn
+                            KonkurrenceMedlem.Discipliner.valueOf(attributes[5])); //Medlemmets svømmedisciplin
+                    readList.add(readMedlem);
+                    success = true;
+                }
+                catch (Exception e) {success = false;}
+                if (!success) {
+                    try {
+                        Medlem readMedlem = new Medlem(
+                                attributes[0], //Denne attribut er navn
+                                attributes[1], //Fødselsår
+                                attributes[2], //E-mail addresse
+                                Boolean.parseBoolean(attributes[3]));
+                        readList.add(readMedlem);
+                        success = true;
+                    }
+                    catch (Exception e) {success = false;}
+                }
             }
         } catch (FileNotFoundException e) {
             throw new RuntimeException(e);
@@ -40,15 +58,31 @@ public class FileHandler {
         try { //Try catch exception for the file handling
             PrintStream ps = new PrintStream("Delfinen.csv");
             for (Medlem m : medlemmer) { //Printer alle attributter for medlemmerne i csv filen
-                ps.print(m.getNavn());
-                ps.print(";");
-                ps.print(m.getFødselsdato());
-                ps.print(";");
-                //ps.print(m.getKøn());
-                ps.print(m.getErAktiv());
-                /*ps.print(";");
-                ps.print(m.getMedlemType());*/
-                ps.println();
+                if (m instanceof KonkurrenceMedlem){
+                    KonkurrenceMedlem km = (KonkurrenceMedlem) m;
+                    ps.print(km.getNavn());
+                    ps.print(";");
+                    ps.print(km.getFødselsdato());
+                    ps.print(";");
+                    ps.print(km.getEmail());
+                    ps.print(";");
+                    ps.print(km.getErAktiv());
+                    ps.print(";");
+                    ps.print(km.getKøn());
+                    ps.print(";");
+                    ps.print(km.getDiscipliner());
+                    ps.println();
+                }
+                else {
+                    ps.print(m.getNavn());
+                    ps.print(";");
+                    ps.print(m.getFødselsdato());
+                    ps.print(";");
+                    ps.print(m.getEmail());
+                    ps.print(";");
+                    ps.print(m.getErAktiv());
+                    ps.println();
+                }
             }
             ps.close();
         } catch (FileNotFoundException e) {

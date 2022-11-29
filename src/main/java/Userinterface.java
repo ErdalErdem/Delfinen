@@ -52,33 +52,6 @@ public class Userinterface {
         } while (menuValg != 9);
     }
 
-/*    public void tilfoejMedlem() {
-        scanner = new Scanner(System.in);
-        System.out.println("Navn:");
-        String navn = scanner.nextLine();
-
-        System.out.println("\nAlder: ");
-        int alder = scanner.nextInt();
-
-        scanner = new Scanner(System.in);
-        System.out.println("Køn:");
-        String køn = scanner.nextLine();
-
-        System.out.println("Type medlemsskab");
-        Medlem.typeMedlem medlemstype = null;
-        try {
-            medlemstype = Medlem.typeMedlem.valueOf(scanner.nextLine().toLowerCase());
-        } catch (IllegalArgumentException e) {
-            System.out.println("Medlemstypen findes ikke. \nMedlem kunne ikke oprettes.");
-        }
-
-        if (medlemstype != null) {
-            //delfinen.database.tilfoejMedlem(navn, alder, køn, medlemstype); //Tilføjer medlemmet til databasen
-            delfinen.database.tilfoejMedlem(navn, alder, køn, medlemstype);
-            System.out.println("\nNavn: " + navn + " \nAlder: " + alder  + " \nKøn: "  + køn + " \nType medlemsskab: " + medlemstype);
-        }
-    }*/
-
     public void tilfoejMedlem() {
         System.out.println("Navn:");
         scanner.nextLine();
@@ -86,6 +59,9 @@ public class Userinterface {
 
         System.out.println("Fødselsdato (Format: 'dd/MM/yyyy'): ");
         String fødselsdato = scanner.nextLine();
+
+        System.out.println("E-mail addresse: ");
+        String email = scanner.nextLine();
 
         System.out.println("Er du aktiv?: ");
         boolean erAktiv;
@@ -99,20 +75,20 @@ public class Userinterface {
             String køn = scanner.nextLine();
 
             System.out.println("Hvilken svømmedisciplin konkurrerer du i?: ");
-            KonkurrenceMedlem.discipliner disciplin = null;
+            KonkurrenceMedlem.Discipliner disciplin = null;
             try {
-                disciplin = KonkurrenceMedlem.discipliner.valueOf(scanner.nextLine().toLowerCase());
-                System.out.println(
-                        "\nNavn: " + navn + " \nFødselsdato: " + fødselsdato + " \nAktivitet: "  + erAktiv +
-                                " \nKøn: " + køn + " \nDisciplin " + disciplin);
-                delfinen.database.tilfoejKonkurrenceMedlem(navn, fødselsdato, erAktiv, køn, disciplin);
+                disciplin = KonkurrenceMedlem.Discipliner.valueOf(scanner.nextLine().toUpperCase());
+                KonkurrenceMedlem km = new KonkurrenceMedlem(navn, fødselsdato, email, erAktiv, køn, disciplin);
+                delfinen.database.tilfoejKonkurrenceMedlem(km);
+                System.out.println(km);
             } catch (IllegalArgumentException e) {
                 System.out.println("Disciplintypen findes ikke. \nMedlem kunne ikke oprettes.");
             }
         }
         else {
-            System.out.println("\nNavn: " + navn + " \nFødselsdato: " + fødselsdato + " \nAktivitet: "  + erAktiv); //Ændre til toString()
-            delfinen.database.tilfoejMedlem(navn, fødselsdato, erAktiv);
+            Medlem m = new Medlem(navn, fødselsdato, email, erAktiv);
+            delfinen.database.tilfoejMedlem(m);
+            System.out.println(m);
         }
     }
 
@@ -144,58 +120,6 @@ public class Userinterface {
         }
     }
 
-
-/*    public void redigerMedlem() {
-        System.out.println("Indtast navn på medlem");
-        scanner.nextLine();
-        String navn = scanner.nextLine();
-        try {
-            Medlem m = delfinen.database.findMedlem(navn);
-            if (m == null) {
-                throw new NullPointerException();
-            }
-            else {
-                System.out.println("""
-                        Hvad vil du ændre?
-                        1. Navn
-                        2. Alder
-                        3. Køn
-                        4. Medlemstype
-                        """);
-                int brugerValg = readInt();
-                switch (brugerValg) {
-                    case 1 -> {
-                        System.out.println("Indtast det nye navn");
-                        scanner.nextLine();
-                        String nytNavn = scanner.nextLine();
-                        m.setNavn(nytNavn);
-                    }
-                    case 2 -> {
-                        System.out.println("Indtast den nye alder");
-                        scanner.nextLine();
-                        int nyAlder = readInt();
-                        m.setAlder(nyAlder);
-                    }
-                    case 3 -> {
-                        System.out.println("Indtast det nye køn");
-                        scanner.nextLine();
-                        String nytKøn = scanner.nextLine();
-                        m.setKøn(nytKøn);
-                    }
-                    case 4 -> {
-                        System.out.println("Indtast den nye type medlemsskab");
-                        scanner.nextLine();
-                        String nytMedlemsskab = scanner.nextLine();
-                        m.setMedlemType(Medlem.typeMedlem.valueOf(nytMedlemsskab));
-                    }
-                }
-            }
-        }
-        catch (NullPointerException e){
-            System.out.println("Medlem kunne ikke findes ");
-        }
-    }*/
-
     public void redigerMedlem() {
         System.out.println("Indtast navn på medlem");
         scanner.nextLine();
@@ -210,7 +134,9 @@ public class Userinterface {
                         Hvad vil du ændre?
                         1. Navn
                         2. Fødselsdato
-                        3. Aktivitet
+                        3. E-mail
+                        4. Aktivitet
+                        5. Konkurrencesvømmer info
                         """);
                 int brugerValg = readInt();
                 switch (brugerValg) {
@@ -227,10 +153,42 @@ public class Userinterface {
                         m.setFødselsdato(nyFDato);
                     }
                     case 3 -> {
+                        System.out.println("Indtast email");
+                        scanner.nextLine();
+                        String nyEmail = scanner.nextLine();
+                        m.setEmail(nyEmail);
+                    }
+                    case 4 -> {
                         System.out.println("Indtast aktivitet");
                         scanner.nextLine();
                         boolean nyAktivitet = readBool();
                         m.setErAktiv(nyAktivitet);
+                    }
+                    case 5 -> {
+                        System.out.println("""
+                        Hvilke oplysninger vil du ændre?
+                        1. Køn
+                        2. Svømmedisciplin
+                        """);
+                        scanner.nextLine();
+                        int kmValg = readInt();
+                        if (m instanceof KonkurrenceMedlem km){
+                            if (kmValg == 1) {
+                                    System.out.println("Indtast køn");
+                                    scanner.nextLine();
+                                    String nytKøn = scanner.nextLine();
+                                    km.setKøn(nytKøn);
+                            }
+                            else if (kmValg == 2) {
+                                System.out.println("Indtast disciplin");
+                                scanner.nextLine();
+                                KonkurrenceMedlem.Discipliner nyDisciplin = KonkurrenceMedlem.Discipliner.valueOf(scanner.nextLine().toUpperCase());
+                                km.setDisciplin(nyDisciplin);
+                            }
+                        }
+                        else {
+                            System.out.println("Medlemmet er ikke en konkurrencesvømmer");
+                        }
                     }
                 }
             }
