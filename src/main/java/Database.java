@@ -18,6 +18,8 @@ public class Database {
         medlemDB.add(new Medlem(navn, fødselsdato, erAktiv));
     }
 
+
+
     public Medlem findMedlem(String navn){
         for (Medlem m : medlemDB){
             if (m.getNavn().equals(navn)){
