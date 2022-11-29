@@ -13,8 +13,9 @@ public class Database {
         medlemDB.add(new Medlem(navn, alder, køn, medlemstype ));
     }*/
 
-    public void tilfoejMedlem(String navn, int fødselsår, int fødselsmåned, int fødselsdag, boolean erAktiv) {
-        medlemDB.add(new Medlem(navn, fødselsår, fødselsmåned, fødselsdag, erAktiv));
+
+    public void tilfoejMedlem(String navn, String fødselsdato, boolean erAktiv) {
+        medlemDB.add(new Medlem(navn, fødselsdato, erAktiv));
     }
 
     public Medlem findMedlem(String navn){

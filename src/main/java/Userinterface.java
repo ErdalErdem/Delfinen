@@ -6,7 +6,7 @@ public class Userinterface {
 
     Scanner scanner;
 
-    public void startProgram() throws FileNotFoundException {
+    public void startProgram() {
         scanner = new Scanner(System.in);
         int menuValg;
         boolean dataÆndret = false; //Boolean som kun er true hvis man har ændret noget i databasen
@@ -52,7 +52,7 @@ public class Userinterface {
         } while (menuValg != 9);
     }
 
-    public void tilfoejMedlem() {
+/*    public void tilfoejMedlem() {
         scanner = new Scanner(System.in);
         System.out.println("Navn:");
         String navn = scanner.nextLine();
@@ -73,13 +73,36 @@ public class Userinterface {
         }
 
         if (medlemstype != null) {
-            delfinen.database.tilfoejMedlem(navn, alder, køn, medlemstype); //Tilføjer medlemmet til databasen
+            //delfinen.database.tilfoejMedlem(navn, alder, køn, medlemstype); //Tilføjer medlemmet til databasen
+            delfinen.database.tilfoejMedlem(navn, alder, køn, medlemstype);
             System.out.println("\nNavn: " + navn + " \nAlder: " + alder  + " \nKøn: "  + køn + " \nType medlemsskab: " + medlemstype);
         }
+    }*/
+
+    public void tilfoejMedlem() {
+        System.out.println("Navn:");
+        scanner.nextLine();
+        String navn = scanner.nextLine();
+
+        System.out.println("Fødselsdato (Format: '03 Feb 2017'): ");
+        String fødselsdato = scanner.nextLine();
+
+        System.out.println("Er du aktiv?: ");
+        boolean erAktiv;
+        erAktiv = readBool();
+
+        //delfinen.database.tilfoejMedlem(navn, alder, køn, medlemstype); //Tilføjer medlemmet til databasen
+        System.out.println("\nNavn: " + navn + " \nFødselsdato: " + fødselsdato + " \nAktivitet: "  + erAktiv);
+        delfinen.database.tilfoejMedlem(navn, fødselsdato, erAktiv);
     }
 
     public void visMedlemmer() {
-        System.out.println(delfinen.læsData()); //Viser alle medlemmer fra csv filen
+        try {
+            System.out.println(delfinen.læsData()); //Viser alle medlemmer fra csv filen
+        }
+        catch (Exception e) {
+            System.out.println("Fil kunne ikke findes");
+        }
     }
 
 
@@ -102,7 +125,7 @@ public class Userinterface {
     }
 
 
-    public void redigerMedlem() {
+/*    public void redigerMedlem() {
         System.out.println("Indtast navn på medlem");
         scanner.nextLine();
         String navn = scanner.nextLine();
@@ -151,6 +174,50 @@ public class Userinterface {
         catch (NullPointerException e){
             System.out.println("Medlem kunne ikke findes ");
         }
+    }*/
+
+    public void redigerMedlem() {
+        System.out.println("Indtast navn på medlem");
+        scanner.nextLine();
+        String navn = scanner.nextLine();
+        try {
+            Medlem m = delfinen.database.findMedlem(navn);
+            if (m == null) {
+                throw new NullPointerException();
+            }
+            else {
+                System.out.println("""
+                        Hvad vil du ændre?
+                        1. Navn
+                        2. Fødselsdato
+                        3. Aktivitet
+                        """);
+                int brugerValg = readInt();
+                switch (brugerValg) {
+                    case 1 -> {
+                        System.out.println("Indtast det nye navn");
+                        scanner.nextLine();
+                        String nytNavn = scanner.nextLine();
+                        m.setNavn(nytNavn);
+                    }
+                    case 2 -> {
+                        System.out.println("Indtast ny fødselsdato");
+                        scanner.nextLine();
+                        String nyFDato = scanner.nextLine();
+                        m.setFødselsdato(nyFDato);
+                    }
+                    case 3 -> {
+                        System.out.println("Indtast aktivitet");
+                        scanner.nextLine();
+                        boolean nyAktivitet = readBool();
+                        m.setErAktiv(nyAktivitet);
+                    }
+                }
+            }
+        }
+        catch (NullPointerException e){
+            System.out.println("Medlem kunne ikke findes ");
+        }
     }
 
     public void sletMedlem(){
@@ -175,6 +242,16 @@ public class Userinterface {
         return scanner.nextInt();
     }
 
+    public boolean readBool() {
+        boolean bool = false;
+        while (!scanner.nextLine().matches("ja|nej") /*!svar.equalsIgnoreCase("ja") || !svar.equalsIgnoreCase("nej")*/){
+            System.out.println(scanner.nextLine() + " " + "Indtast venligst et passende svar.");
+        }
+        if (scanner.nextLine().equalsIgnoreCase("ja")) {
+            bool = true;
+        }
+        return bool;
+    }
 }
 
 

@@ -8,6 +8,10 @@ public class KonkurrenceMedlem {
             brystsvømning
         }
 
+        public KonkurrenceInfo(String navn, String fødselsdato, boolean erAktiv) {
+            super(navn, fødselsdato, erAktiv);
+        }
+
         private String køn;
 
         private discipliner disciplin;
@@ -28,9 +32,8 @@ public class KonkurrenceMedlem {
             this.disciplin = disciplin;
         }
 
-        public KonkurrenceInfo(String navn, int alder, String køn, boolean erAktiv) {
-            super(navn, alder, køn, erAktiv);
-        }
+
+
     }
 
 }

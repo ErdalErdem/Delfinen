@@ -12,8 +12,12 @@ public class Delfinen {
 
 
     public void opdaterData() {
-        if (fileHandler.filEksisterer() && !læsData().isEmpty() && database.getMedlemDB().isEmpty()){
-            database.getMedlemDB().addAll(læsData());
+        try {
+            if (fileHandler.filEksisterer() && !læsData().isEmpty() && database.getMedlemDB().isEmpty()) {
+                database.getMedlemDB().addAll(læsData());
+            }
+        } catch (Exception e) {
+            throw new RuntimeException(e);
         }
     }
 
