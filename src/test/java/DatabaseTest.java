@@ -30,7 +30,7 @@ Database database = new Database();
         Database database = new Database();
 
 
-
+// ikke sikker på hvordan jeg skal lave unit test her
 
 
 
