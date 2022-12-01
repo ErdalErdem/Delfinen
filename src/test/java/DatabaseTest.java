@@ -8,12 +8,14 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class DatabaseTest {
 
+    @Test
 void tilFoejelseAfMedlemmer() {
 
     // Arrange
 Database database = new Database();
 
     // Act
+
     database.tilfoejMedlem("Per", 20, "mand", Medlem.typeMedlem.aktiv);
 
     // Assert
@@ -21,4 +23,19 @@ Database database = new Database();
     int faktiskStørrelse = database.getMedlemDB().size();
     assertEquals(forventetDBStørrelse, faktiskStørrelse);
 }
+
+@Test
+    void findMedlemUdenNogetMatch() {
+
+        Database database = new Database();
+
+
+
+
+
+
+
+
+}
+
 }
