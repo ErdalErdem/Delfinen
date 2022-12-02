@@ -1,7 +1,11 @@
+package DataSource;
+
 import java.util.*;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.PrintStream;
+import Medlem.Medlem;
+import Medlem.KonkurrenceMedlem;
 
 public class FileHandler {
 

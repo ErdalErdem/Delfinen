@@ -1,9 +1,8 @@
+package Medlem;
+
 import java.time.LocalDate;
 import java.time.Period;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
 
 public class Medlem {
 /*    public enum typeMedlem { //Brug enum til discipliner i stedet
@@ -21,13 +20,6 @@ public class Medlem {
 
     private String email;
     private boolean erAktiv;
-
-
-    private ArrayList<SortAlder> sortAlder = new ArrayList<SortAlder>();
-
-    public ArrayList<SortAlder> sortAlders(){
-        return sortAlders();
-    }
 
 
     public Medlem(String navn, String fødselsdato, String email, boolean erAktiv) {
@@ -80,28 +72,6 @@ public class Medlem {
         this.erAktiv = bool;
     }
 
-   /* public void comparatorSort(String type) {
-       ArrayList<SortAlder> SortAlder;
-
-        Comparator<SortAlder> comparator = comparatorSelection(type);
-
-        Collections.sort(SortAlder, comparator);
-    }
-
-    private Comparator<SortAlder> comparatorSelection(String type) {
-    }
-
-/*
-    public void comparatorSort(String type, String sType) {
-
-        Comparator<Superhero> comparator = comparatorSelection(type);
-        Comparator<Superhero> comparatorS = comparatorSelection(sType);
-
-        Collections.sort(database.getHeroDatabase(), comparator.thenComparing(comparatorS));
-    }
-
- */
-
     public int beregnKontigent() {
         int kontigent;
         if (alder < 18){ //Junior
@@ -124,8 +94,4 @@ public class Medlem {
         return "Navn: " + navn + " \nFødselsdato: " + fødselsdato + " \nE-mail: " + email +  " \nAlder: " + alder + " \nAktivitet: " + erAktiv;
     }
 
-
-    public class SortAlder {
-
-    }
 }

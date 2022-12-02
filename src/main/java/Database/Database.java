@@ -1,4 +1,8 @@
-import java.util.ArrayList;
+package Database;
+
+import Medlem.*;
+import Comparator.*;
+import java.util.*;
 
 public class Database {
 
@@ -43,5 +47,15 @@ public class Database {
         }
         return samletKontigent;
     }
+
+    //Comparators
+
+    public ArrayList<Medlem> sorterAlder(ArrayList<Medlem> usorteretListe) {
+        ArrayList<Medlem> alderListe = new ArrayList<Medlem>();
+        alderListe.addAll(usorteretListe);
+        Collections.sort(alderListe, new AlderComparator());
+        return alderListe;
+    }
+
 
 }

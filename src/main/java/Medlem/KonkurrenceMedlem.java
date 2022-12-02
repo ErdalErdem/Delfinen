@@ -1,3 +1,5 @@
+package Medlem;
+
 public class KonkurrenceMedlem extends Medlem {
 
         public enum Discipliner {

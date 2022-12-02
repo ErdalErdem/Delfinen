@@ -1,5 +1,9 @@
+package UI;
+
 import java.io.FileNotFoundException;
 import java.util.Scanner;
+import Delfinen.*;
+import Medlem.*;
 
 public class Userinterface {
     private Delfinen delfinen = new Delfinen();
@@ -68,6 +72,8 @@ public class Userinterface {
         erAktiv = readBool();
 
         System.out.println("Er du konkurrencesvømmer?: ");
+
+
         boolean konkurrenceSvømmer;
         konkurrenceSvømmer = readBool();
         if (konkurrenceSvømmer) {
@@ -212,14 +218,22 @@ public class Userinterface {
     }
 
 
+    public void sorterMedlemmer(int brugerInput) {
+        switch (brugerInput) {
+            case 1 -> System.out.println(delfinen.sorterAlder(delfinen.læsData()));
+        }
+    }
+
+
     public int readInt() {
         while (!scanner.hasNextInt()) {
             String text = scanner.next();
             System.out.println(text + " " + "Invalid data, enter a valid integer.");
         }
-        int i = scanner.nextInt();
-        scanner.nextLine();
-        return i;
+        //int i = scanner.nextInt();
+        //scanner.nextLine();
+        //return i;
+        return scanner.nextInt();
     }
 
     public boolean readBool() {

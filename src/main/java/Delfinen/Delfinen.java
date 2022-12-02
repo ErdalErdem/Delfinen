@@ -1,5 +1,10 @@
+package Delfinen;
+
 import java.io.FileNotFoundException;
 import java.util.*;
+import Medlem.*;
+import Database.Database;
+import DataSource.FileHandler;
 
 public class Delfinen {
 
@@ -24,5 +29,10 @@ public class Delfinen {
     public void gemData() {
         fileHandler.gemData(database.getMedlemDB());
     }
+
+    public ArrayList<Medlem> sorterAlder(ArrayList<Medlem> list1) {
+        return database.sorterAlder(list1);
+    }
+
 
 }
