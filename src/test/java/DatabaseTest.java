@@ -1,6 +1,8 @@
+import Database.Database;
+import Medlem.*;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-
 import java.util.ArrayList;
 import java.util.Arrays;
 
@@ -23,7 +25,9 @@ class DatabaseTest {
 
         // Act
 
-        database.tilfoejMedlem("Per", 20, "mand", Medlem.typeMedlem.aktiv);
+        Medlem m = new Medlem("Per", "03/02/2002", "PerAndersen@Gmail.com", true);
+        //database.tilfoejMedlem("Per", 20, "mand", Medlem.typeMedlem.aktiv);
+        database.tilfoejMedlem(m);
 
         // Assert
         int forventetDBStørrelse = 1;
@@ -35,19 +39,21 @@ class DatabaseTest {
     void findMedlem() {
 
         // Arrange
-        String navn = "Hans";
+        /*String navn = "Hans";
         int alder = 25;
-        String køn = "Mand";
+        String køn = "Mand";*/
         boolean aktivitet = true;
+        Medlem m = new Medlem("Hans", "03/02/1997", "Hans@Gmail.com", true);
 
-        database.tilfoejMedlem(navn, alder, køn, Medlem.typeMedlem.aktiv); // Type medlem skal ændres til boolean når vi merger
+        //database.tilfoejMedlem(navn, alder, køn, Medlem.typeMedlem.aktiv); // Type medlem skal ændres til boolean når vi merger
+        database.tilfoejMedlem(m);
 
         // Act
         Medlem resultat = database.findMedlem("Hans");
 
 
         // Assert
-        assertEquals(resultat.getNavn(), navn);
+        assertEquals(resultat.getNavn(), m.getNavn());
     }
 
     @Test
@@ -55,16 +61,20 @@ class DatabaseTest {
 
         // Arrange
         int forventetStørrelse = 0;
+        Medlem m = new Medlem("Hans", "03/02/1997", "Hans@Gmail.com", true);
 
-        database.tilfoejMedlem("Hans", 25, "Mand", Medlem.typeMedlem.aktiv);
+
+        //database.tilfoejMedlem("Hans", 25, "Mand", Medlem.typeMedlem.aktiv);
+        database.tilfoejMedlem(m);
         // Act
 
-        Medlem faktiskStørrelse = database.findMedlem("Hans");
+        //Medlem faktiskStørrelse = database.findMedlem("Hans");
+        database.sletMedlem("Hans");
 
         // Assert
 
-        assertEquals(forventetStørrelse, faktiskStørrelse);
-
+        //assertEquals(forventetStørrelse, faktiskStørrelse);
+        assertEquals(forventetStørrelse, database.getMedlemDB().size());
 
     }
 
