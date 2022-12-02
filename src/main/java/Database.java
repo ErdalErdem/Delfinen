@@ -16,6 +16,8 @@ public class Database {
         medlemDB.add(km);
     }
 
+
+
     public Medlem findMedlem(String navn){
         for (Medlem m : medlemDB){
             if (m.getNavn().equals(navn)){
@@ -24,7 +26,6 @@ public class Database {
         }
         return null;
     }
-
 
     public void sletMedlem (String navn){
         for (int i = 0; i < medlemDB.size(); i++){

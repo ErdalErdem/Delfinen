@@ -22,7 +22,7 @@ public class Userinterface {
                     3. Søg efter medlems navn
                     4. Rediger medlems info
                     5. Slet medlem
-                    9. afslut""");
+                    9. Afslut""");
 
             menuValg = readInt();
 
@@ -100,7 +100,6 @@ public class Userinterface {
             System.out.println("Fil kunne ikke findes");
         }
     }
-
 
     public void søgMedlem() {
         System.out.println("Indtast navn på medlem");
@@ -212,12 +211,15 @@ public class Userinterface {
         }
     }
 
+
     public int readInt() {
         while (!scanner.hasNextInt()) {
             String text = scanner.next();
             System.out.println(text + " " + "Invalid data, enter a valid integer.");
         }
-        return scanner.nextInt();
+        int i = scanner.nextInt();
+        scanner.nextLine();
+        return i;
     }
 
     public boolean readBool() {

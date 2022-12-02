@@ -33,6 +33,8 @@ public class KonkurrenceMedlem extends Medlem {
             this.disciplin = disciplin;
         }
 
+
+
     @Override
     public String toString() {
         return "Navn: " + getNavn() + " \nFødselsdato: " + getFødselsdato() + " \nE-mail: " + getEmail() + " \nAlder: " + getAlder() +
