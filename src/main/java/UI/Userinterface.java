@@ -1,7 +1,7 @@
 package UI;
 
 import java.io.FileNotFoundException;
-import java.util.Scanner;
+import java.util.*;
 import Delfinen.*;
 import Medlem.*;
 
@@ -26,6 +26,8 @@ public class Userinterface {
                     3. Søg efter medlems navn
                     4. Rediger medlems info
                     5. Slet medlem
+                    6. Angiv indtægt for alle medlemmer
+                    7. Sorter konkurrencesvømmere
                     9. Afslut""");
 
             menuValg = readInt();
@@ -49,6 +51,8 @@ public class Userinterface {
                     sletMedlem();
                     dataÆndret = true;
                 }
+                case 6 -> kontigentFormatPrint();
+                case 7 -> sorterMedlemmer();
             }
             if (dataÆndret) {
                 delfinen.gemData();
@@ -71,28 +75,34 @@ public class Userinterface {
         boolean erAktiv;
         erAktiv = readBool();
 
-        System.out.println("Er du konkurrencesvømmer?: ");
+        if (erAktiv){
+            System.out.println("Er du konkurrencesvømmer?: ");
 
+            boolean konkurrenceSvømmer;
+            konkurrenceSvømmer = readBool();
+            if (konkurrenceSvømmer) {
+                System.out.println("Hvad er dit køn?: ");
+                String køn = scanner.nextLine();
 
-        boolean konkurrenceSvømmer;
-        konkurrenceSvømmer = readBool();
-        if (konkurrenceSvømmer) {
-            System.out.println("Hvad er dit køn?: ");
-            String køn = scanner.nextLine();
-
-            System.out.println("Hvilken svømmedisciplin konkurrerer du i?: ");
-            KonkurrenceMedlem.Discipliner disciplin = null;
-            try {
-                disciplin = KonkurrenceMedlem.Discipliner.valueOf(scanner.nextLine().toUpperCase());
-                KonkurrenceMedlem km = new KonkurrenceMedlem(navn, fødselsdato, email, erAktiv, køn, disciplin);
-                delfinen.database.tilfoejKonkurrenceMedlem(km);
-                System.out.println(km);
-            } catch (IllegalArgumentException e) {
-                System.out.println("Disciplintypen findes ikke. \nMedlem kunne ikke oprettes.");
+                System.out.println("Hvilken svømmedisciplin konkurrerer du i?: ");
+                KonkurrenceMedlem.Discipliner disciplin = null;
+                try {
+                    disciplin = KonkurrenceMedlem.Discipliner.valueOf(scanner.nextLine().toUpperCase());
+                    KonkurrenceMedlem km = new KonkurrenceMedlem(navn, fødselsdato, email, true, køn, disciplin); //Opretter konkurrencemedlem
+                    delfinen.database.tilfoejKonkurrenceMedlem(km); //Tilføjer konkurrencemedlem
+                    System.out.println(km);
+                } catch (IllegalArgumentException e) {
+                    System.out.println("Disciplintypen findes ikke. \nMedlem kunne ikke oprettes.");
+                }
+            }
+            else {
+                Medlem m = new Medlem(navn, fødselsdato, email, true); //Opretter aktiv medlem som ikke er konkurrencemedlem
+                delfinen.database.tilfoejMedlem(m);
+                System.out.println(m);
             }
         }
         else {
-            Medlem m = new Medlem(navn, fødselsdato, email, erAktiv);
+            Medlem m = new Medlem(navn, fødselsdato, email, false); //Opretter passiv medlem
             delfinen.database.tilfoejMedlem(m);
             System.out.println(m);
         }
@@ -100,7 +110,7 @@ public class Userinterface {
 
     public void visMedlemmer() {
         try {
-            System.out.println(delfinen.læsData()); //Viser alle medlemmer fra csv filen
+            formatPrint(delfinen.læsData()); //System.out.println(delfinen.læsData()); //Viser alle medlemmer fra csv filen
         }
         catch (Exception e) {
             System.out.println("Fil kunne ikke findes");
@@ -164,7 +174,7 @@ public class Userinterface {
                         m.setEmail(nyEmail);
                     }
                     case 4 -> {
-                        System.out.println("Indtast aktivitet");
+                        System.out.println("Er medlemmet aktiv?");
                         scanner.nextLine();
                         boolean nyAktivitet = readBool();
                         m.setErAktiv(nyAktivitet);
@@ -218,14 +228,22 @@ public class Userinterface {
     }
 
 
-    public void sorterMedlemmer(int brugerInput) {
+    public void sorterMedlemmer() {
+        System.out.println("""
+                        Hvad vil du ændre?
+                        1. Alder
+                        2. Ikke lavet endnu
+                        """);
+        scanner.nextLine();
+        int brugerInput = readInt();
         switch (brugerInput) {
-            case 1 -> System.out.println(delfinen.sorterAlder(delfinen.læsData()));
+            case 1 -> alderFormatPrint(delfinen.sorterAlder(delfinen.læsData())); //System.out.println(delfinen.sorterAlder(delfinen.læsData()));
+            case 2 -> System.out.println("Ikke implementeret endnu");
         }
     }
 
 
-    public int readInt() {
+    private int readInt() {
         while (!scanner.hasNextInt()) {
             String text = scanner.next();
             System.out.println(text + " " + "Invalid data, enter a valid integer.");
@@ -236,7 +254,7 @@ public class Userinterface {
         return scanner.nextInt();
     }
 
-    public boolean readBool() {
+    private boolean readBool() {
         boolean bool = false;
         while (!scanner.nextLine().matches("ja|nej") /*!svar.equalsIgnoreCase("ja") || !svar.equalsIgnoreCase("nej")*/){
             System.out.println(scanner.nextLine() + " " + "Indtast venligst et passende svar.");
@@ -246,6 +264,41 @@ public class Userinterface {
         }
         return bool;
     }
+
+    private void formatPrint(ArrayList<Medlem> sorteringList) {
+        System.out.printf("┃ %-20s │ %-15s │ %-25s │ %-12s │ %-15s ┃ %-15s ┃%n", "Navn", "Fødselsdato", "E-mail", "Aktivitet", "Køn", "Svømmedisciplin");
+        for (Medlem m : sorteringList) {
+            if (m instanceof KonkurrenceMedlem km){
+                System.out.printf("┃ %-20s │ %-15s │ %-25s │ %-12s │ %-15s ┃ %-15s ┃%n", km.getNavn(), km.getFødselsdato(),
+                        km.getEmail(), km.getErAktiv(), km.getKøn(), km.getDiscipliner());
+            }
+            else {
+                System.out.printf("┃ %-20s │ %-15s │ %-25s │ %-12s │ %-15s ┃ %-15s ┃%n", m.getNavn(), m.getFødselsdato(), m.getEmail(), m.getErAktiv(), "", "");
+            }
+        }
+    }
+
+    private void kontigentFormatPrint () {
+        for (Medlem m : delfinen.læsData()){
+            System.out.printf("%-15s %15s %20s %n", "Navn: " + m.getNavn(), "Alder: " + m.getAlder(), "Kontigent: " + m.beregnKontigent());
+        }
+        System.out.printf("%-20s %n%n", "Samlet årlig kontigent: " + delfinen.database.beregnSamletKontigent());
+    }
+
+    private void alderFormatPrint(ArrayList<KonkurrenceMedlem> sorteringList) {
+        System.out.printf("┃ %-20s │ %-15s │ %-25s │ %-12s │ %-15s ┃ %-15s ┃%n", "Navn", "Fødselsdato", "E-mail", "Aktivitet", "Køn", "Svømmedisciplin");
+        for (KonkurrenceMedlem km : sorteringList) {
+            if (km.getAlder() < 18){
+                System.out.printf("┃ %-20s │ %-15s │ %-25s │ %-12s │ %-15s ┃ %-15s ┃%n", "Junior: " + km.getNavn(), km.getFødselsdato(),
+                        km.getEmail(), km.getErAktiv(), km.getKøn(), km.getDiscipliner());
+            }
+            else if (km.getAlder() > 18){
+                System.out.printf("┃ %-20s │ %-15s │ %-25s │ %-12s │ %-15s ┃ %-15s ┃%n", "Senior: " + km.getNavn(), km.getFødselsdato(),
+                        km.getEmail(), km.getErAktiv(), km.getKøn(), km.getDiscipliner());
+            }
+        }
+    }
+
 }
 
 

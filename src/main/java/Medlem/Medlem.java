@@ -5,14 +5,6 @@ import java.time.Period;
 import java.time.format.DateTimeFormatter;
 
 public class Medlem {
-/*    public enum typeMedlem { //Brug enum til discipliner i stedet
-        junior,
-        senior,
-        passiv,
-        aktiv,
-        motionist,
-        konkurrencesvømmer
-    }*/
 
     private String navn;
     private int alder; //Ændr til fødselsdato
@@ -20,7 +12,6 @@ public class Medlem {
 
     private String email;
     private boolean erAktiv;
-
 
     public Medlem(String navn, String fødselsdato, String email, boolean erAktiv) {
         this.navn = navn;
@@ -64,8 +55,9 @@ public class Medlem {
         return alder;
     }
 
-    public boolean getErAktiv() {
-        return erAktiv;
+    public String getErAktiv() {
+
+        return boolToWord(erAktiv);
     }
 
     public void setErAktiv(boolean bool) {
@@ -89,9 +81,13 @@ public class Medlem {
         return kontigent;
     }
 
+    private String boolToWord(boolean bool){
+        return (bool ? "Aktiv":"Passiv");
+    }
+
     @Override
     public String toString() {
-        return "Navn: " + navn + " \nFødselsdato: " + fødselsdato + " \nE-mail: " + email +  " \nAlder: " + alder + " \nAktivitet: " + erAktiv;
+        return "Navn: " + navn + " \nFødselsdato: " + fødselsdato + " \nE-mail: " + email +  " \nAlder: " + alder + " \nAktivitet: " + boolToWord(erAktiv)/*boolToWord()*/;
     }
 
 }

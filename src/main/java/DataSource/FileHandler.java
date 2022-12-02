@@ -62,8 +62,7 @@ public class FileHandler {
         try { //Try catch exception for the file handling
             PrintStream ps = new PrintStream("Delfinen.csv");
             for (Medlem m : medlemmer) { //Printer alle attributter for medlemmerne i csv filen
-                if (m instanceof KonkurrenceMedlem){
-                    KonkurrenceMedlem km = (KonkurrenceMedlem) m;
+                if (m instanceof KonkurrenceMedlem km){
                     ps.print(km.getNavn());
                     ps.print(";");
                     ps.print(km.getFødselsdato());

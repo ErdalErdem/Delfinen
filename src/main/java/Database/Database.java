@@ -48,11 +48,16 @@ public class Database {
         return samletKontigent;
     }
 
-    //Comparators
+    //Sortering
 
-    public ArrayList<Medlem> sorterAlder(ArrayList<Medlem> usorteretListe) {
-        ArrayList<Medlem> alderListe = new ArrayList<Medlem>();
-        alderListe.addAll(usorteretListe);
+    public ArrayList<KonkurrenceMedlem> sorterAlder(ArrayList<Medlem> usorteretListe) {
+        ArrayList<KonkurrenceMedlem> alderListe = new ArrayList<>();
+        for (Medlem  m : usorteretListe) {
+            if (m instanceof KonkurrenceMedlem) {
+                KonkurrenceMedlem km = (KonkurrenceMedlem) m;
+                alderListe.add(km);
+            }
+        }
         Collections.sort(alderListe, new AlderComparator());
         return alderListe;
     }

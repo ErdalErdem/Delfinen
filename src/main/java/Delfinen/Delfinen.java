@@ -30,7 +30,7 @@ public class Delfinen {
         fileHandler.gemData(database.getMedlemDB());
     }
 
-    public ArrayList<Medlem> sorterAlder(ArrayList<Medlem> list1) {
+    public ArrayList<KonkurrenceMedlem> sorterAlder(ArrayList<Medlem> list1) {
         return database.sorterAlder(list1);
     }
 
