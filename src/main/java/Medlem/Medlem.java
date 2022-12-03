@@ -81,13 +81,17 @@ public class Medlem {
         return kontigent;
     }
 
-    private String boolToWord(boolean bool){
+    public int beregnRestance(Medlem m) {
+        return 0;
+    }
+
+    public String boolToWord(boolean bool){
         return (bool ? "Aktiv":"Passiv");
     }
 
     @Override
     public String toString() {
-        return "Navn: " + navn + " \nFødselsdato: " + fødselsdato + " \nE-mail: " + email +  " \nAlder: " + alder + " \nAktivitet: " + boolToWord(erAktiv)/*boolToWord()*/;
+        return "Navn: " + navn + " \nFødselsdato: " + fødselsdato + " \nE-mail: " + email +  " \nAlder: " + alder + " \nAktivitet: " + boolToWord(erAktiv);
     }
 
 }

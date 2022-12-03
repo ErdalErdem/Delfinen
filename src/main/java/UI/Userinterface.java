@@ -17,17 +17,33 @@ public class Userinterface {
         delfinen.opdaterData(); //Sørger for at programmet ikke overwriter en gammel csv fil
 
         System.out.println("""
-                Velkommen til Delfin svømme klubben.
+                                   YAao,
+                                    Y8888b,
+                                  ,oA8888888b,
+                            ,aaad8888888888888888bo,
+                         ,d888888888888888888888888888b,
+                       ,888888888888888888888888888888888b,
+                      d8888888888888888888888888888888888888,
+                     d888888888888888888888888888888888888888b
+                    d888888P'                    `Y888888888888,
+                    88888P'                    Ybaaaa8888888888l
+                   a8888'                      `Y8888P' `V888888
+                 d8888888a                                `Y8888
+                AY/'' `\\Y8b                                 ``Y8b
+                Y'      `YP                                    ~~
+                         `'
+                Velkommen til svømmeklubben Delfinen!
+                Hvad kan jeg hjælpe dig med i dag?
                 """);
         do {
             System.out.println("""
                     1. Opret medlem
                     2. Vis alle medlemmer
                     3. Søg efter medlems navn
-                    4. Rediger medlems info
+                    4. Redigér medlems info
                     5. Slet medlem
-                    6. Angiv indtægt for alle medlemmer
-                    7. Sorter konkurrencesvømmere
+                    6. Vis årlig indtægt per medlemmer
+                    7. Sortér konkurrencesvømmere
                     9. Afslut""");
 
             menuValg = readInt();
@@ -71,20 +87,18 @@ public class Userinterface {
         System.out.println("E-mail addresse: ");
         String email = scanner.nextLine();
 
-        System.out.println("Er du aktiv?: ");
-        boolean erAktiv;
-        erAktiv = readBool();
-
+        System.out.println("Er du aktiv? (ja/nej): ");
+        String s = scanner.nextLine();
+        boolean erAktiv = readBool(s);
         if (erAktiv){
-            System.out.println("Er du konkurrencesvømmer?: ");
-
-            boolean konkurrenceSvømmer;
-            konkurrenceSvømmer = readBool();
+            System.out.println("Er du konkurrencesvømmer? (ja/nej): ");
+            String s2 = scanner.nextLine();
+            boolean konkurrenceSvømmer = readBool(s2);
             if (konkurrenceSvømmer) {
                 System.out.println("Hvad er dit køn?: ");
                 String køn = scanner.nextLine();
 
-                System.out.println("Hvilken svømmedisciplin konkurrerer du i?: ");
+                System.out.println("Hvilken svømmedisciplin konkurrerer du i? (butterfly, crawl, rygcrawl, brystsvømning): ");
                 KonkurrenceMedlem.Discipliner disciplin = null;
                 try {
                     disciplin = KonkurrenceMedlem.Discipliner.valueOf(scanner.nextLine().toUpperCase());
@@ -176,7 +190,8 @@ public class Userinterface {
                     case 4 -> {
                         System.out.println("Er medlemmet aktiv?");
                         scanner.nextLine();
-                        boolean nyAktivitet = readBool();
+                        String s = scanner.nextLine();
+                        boolean nyAktivitet = readBool(s);
                         m.setErAktiv(nyAktivitet);
                     }
                     case 5 -> {
@@ -254,12 +269,13 @@ public class Userinterface {
         return scanner.nextInt();
     }
 
-    private boolean readBool() {
+    private boolean readBool(String s) {
         boolean bool = false;
-        while (!scanner.nextLine().matches("ja|nej") /*!svar.equalsIgnoreCase("ja") || !svar.equalsIgnoreCase("nej")*/){
-            System.out.println(scanner.nextLine() + " " + "Indtast venligst et passende svar.");
+        while (!s.equalsIgnoreCase("ja") && !s.equalsIgnoreCase("nej")/*s.matches("ja|nej")*/){
+            System.out.println(s + " " + "Indtast venligst et passende svar.");
+            s = scanner.nextLine();
         }
-        if (scanner.nextLine().equalsIgnoreCase("ja")) {
+        if (s.equalsIgnoreCase("ja")) {
             bool = true;
         }
         return bool;

@@ -32,7 +32,7 @@ public class FileHandler {
                             attributes[0], //Denne attribut er navn
                             attributes[1], //Fødselsår
                             attributes[2], //E-mail addresse
-                            Boolean.parseBoolean(attributes[3]), //Er medlemmet aktiv
+                            parseBoolean(attributes[3]),//Boolean.parseBoolean(attributes[3]), //Er medlemmet aktiv
                             attributes[4], //Medlemmets køn
                             KonkurrenceMedlem.Discipliner.valueOf(attributes[5])); //Medlemmets svømmedisciplin
                     readList.add(readMedlem);
@@ -92,4 +92,10 @@ public class FileHandler {
             throw new RuntimeException(e);
         }
     }
+
+    public boolean parseBoolean(String s) {
+        boolean bool = Boolean.parseBoolean(s);
+        return s.equals("Aktiv");
+    }
+
 }
