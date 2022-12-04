@@ -48,6 +48,14 @@ public class Database {
         return samletKontigent;
     }
 
+    public int beregnGæld() {
+        int restance = 0;
+        for (Medlem m : medlemDB){
+            m.beregnRestance();
+        }
+        return restance;
+    }
+
     //Sortering
 
     public ArrayList<KonkurrenceMedlem> sorterAlder(ArrayList<Medlem> usorteretListe) {

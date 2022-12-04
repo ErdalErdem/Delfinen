@@ -81,7 +81,7 @@ public class Medlem {
         return kontigent;
     }
 
-    public int beregnRestance(Medlem m) {
+    public int beregnRestance() {
         return 0;
     }
 
