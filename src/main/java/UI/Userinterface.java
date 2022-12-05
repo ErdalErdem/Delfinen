@@ -165,7 +165,8 @@ public class Userinterface {
                         2. Fødselsdato
                         3. E-mail
                         4. Aktivitet
-                        5. Konkurrencesvømmer info
+                        5. Medlems gæld
+                        6. Konkurrencesvømmer info
                         """);
                 int brugerValg = readInt();
                 switch (brugerValg) {
@@ -195,6 +196,13 @@ public class Userinterface {
                         m.setErAktiv(nyAktivitet);
                     }
                     case 5 -> {
+                        System.out.println("Er medlemmet i gæld?");
+                        scanner.nextLine();
+                        String s = scanner.nextLine();
+                        boolean gæld = readBool(s);
+                        m.setHarGæld(gæld);
+                    }
+                    case 6 -> {
                         System.out.println("""
                         Hvilke oplysninger vil du ændre?
                         1. Køn
@@ -294,11 +302,31 @@ public class Userinterface {
         }
     }
 
-    private void kontigentFormatPrint () {
-        for (Medlem m : delfinen.læsData()){
-            System.out.printf("%-15s %15s %20s %n", "Navn: " + m.getNavn(), "Alder: " + m.getAlder(), "Kontigent: " + m.beregnKontigent());
+/*    private void kontigentFormatPrint () {
+        try {
+            for (Medlem m : delfinen.læsData()){
+                System.out.printf("%-15s %15s %20s %n", "Navn: " + m.getNavn(), "Alder: " + m.getAlder(), "Kontigent: " + m.beregnKontigent());
+            }
+            System.out.printf("%-20s %n%n", "Samlet årlig kontigent: " + delfinen.database.beregnSamletKontigent());
         }
-        System.out.printf("%-20s %n%n", "Samlet årlig kontigent: " + delfinen.database.beregnSamletKontigent());
+        catch (Exception e) {
+            System.out.println("Fil kunne ikke findes");
+        }
+    }*/
+
+    private void kontigentFormatPrint () {
+        try {
+            for (Medlem m : delfinen.læsData()){
+                if (!m.getHarGæld())
+                System.out.printf("%-15s %15s %20s %n", "Navn: " + m.getNavn(), "Alder: " + m.getAlder(), "Kontigent: " + m.beregnKontigent());
+                else
+                    System.out.printf("%-15s %15s %20s %n", "Navn: " + m.getNavn(), "Alder: " + m.getAlder(), "Gæld: " + m.beregnGæld());
+            }
+            System.out.printf("%-20s %n%n", "Samlet årlig kontigent: " + delfinen.database.beregnSamletBalance());
+        }
+        catch (Exception e) {
+            System.out.println("Fil kunne ikke findes");
+        }
     }
 
     private void alderFormatPrint(ArrayList<KonkurrenceMedlem> sorteringList) {

@@ -12,6 +12,7 @@ public class Medlem {
 
     private String email;
     private boolean erAktiv;
+    private boolean harGæld;
 
     public Medlem(String navn, String fødselsdato, String email, boolean erAktiv) {
         this.navn = navn;
@@ -45,6 +46,14 @@ public class Medlem {
         this.email = email;
     }
 
+    public boolean getHarGæld() {
+        return harGæld;
+    }
+
+    public void setHarGæld(boolean bool) {
+        this.harGæld = bool;
+    }
+
     public int beregnAlder(String fødselsdato) {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/uuuu"); //Dato skal være af format f.eks. '03/02/2017'
         LocalDate fdato = LocalDate.parse(fødselsdato, formatter); //Parser får en instans af localdate
@@ -65,25 +74,40 @@ public class Medlem {
     }
 
     public int beregnKontigent() {
-        int kontigent;
-        if (alder < 18){ //Junior
-            kontigent = 1000;
-        }
-        else if (alder > 60) { //Senior over 60 år
-            kontigent =  1200;
-        }
-        else if (!erAktiv) { //Passiv medlemskab
-            kontigent = 500;
-        }
-        else { //Aktiv senior medlem
-            kontigent = 1600;
+        int kontigent = 0;
+        if (!harGæld){
+            if (alder < 18){ //Junior
+                kontigent = 1000;
+            }
+            else if (alder > 60) { //Senior over 60 år
+                kontigent =  1200;
+            }
+            else if (!erAktiv) { //Passiv medlemskab
+                kontigent = 500;
+            }
+            else { //Aktiv senior medlem
+                kontigent = 1600;
+            }
         }
         return kontigent;
     }
 
-    public int beregnRestance() {
-        return 0;
+    public int beregnGæld() {
+        int gæld = 0;
+        if (harGæld) {
+            if (alder < 18) { //Junior
+                gæld = -1000;
+            } else if (alder > 60) { //Senior over 60 år
+                gæld = -1200;
+            } else if (!erAktiv) { //Passiv medlemskab
+                gæld = -500;
+            } else { //Aktiv senior medlem
+                gæld = -1600;
+            }
+        }
+        return gæld;
     }
+
 
     public String boolToWord(boolean bool){
         return (bool ? "Aktiv":"Passiv");

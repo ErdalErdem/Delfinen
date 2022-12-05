@@ -48,12 +48,12 @@ public class Database {
         return samletKontigent;
     }
 
-    public int beregnGæld() {
-        int restance = 0;
+    public int beregnSamletBalance() {
+        int balance = 0;
         for (Medlem m : medlemDB){
-            m.beregnRestance();
+            balance += m.beregnKontigent() + m.beregnGæld() ;
         }
-        return restance;
+        return balance;
     }
 
     //Sortering
