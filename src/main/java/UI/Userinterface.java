@@ -1,6 +1,5 @@
 package UI;
 
-import java.io.FileNotFoundException;
 import java.util.*;
 import Delfinen.*;
 import Medlem.*;
@@ -37,44 +36,56 @@ public class Userinterface {
                 """);
         do {
             System.out.println("""
+                    1. Vis medlem oplysninger (Formand)
+                    2. Vis årlig indtægt (Kasserer)
+                    3. Vis konkurrencesvømmer statistik (Træner)
+                    9. Afslut""");
+
+            menuValg = readInt();
+
+            if (menuValg == 1) {
+                System.out.println("""
                     1. Opret medlem
                     2. Vis alle medlemmer
                     3. Søg efter medlems navn
                     4. Redigér medlems info
                     5. Slet medlem
-                    6. Vis årlig indtægt per medlemmer
-                    7. Sortér konkurrencesvømmere
                     9. Afslut""");
-
-            menuValg = readInt();
-
-            switch (menuValg) {
-                case 1 -> {
-                    tilfoejMedlem();
-                    dataÆndret = true;
+                int underMenuValg = readInt();
+                switch (underMenuValg) {
+                    case 1 -> {
+                        tilfoejMedlem();
+                        dataÆndret = true;
+                    }
+                    case 2 -> {
+                        visMedlemmer();
+                    }
+                    case 3 -> {
+                        søgMedlem();
+                    }
+                    case 4 -> {
+                        redigerMedlem();
+                        dataÆndret = true;
+                    }
+                    case 5 -> {
+                        sletMedlem();
+                        dataÆndret = true;
+                    }
+                    case 9 -> menuValg = 9;
                 }
-                case 2 -> {
-                    visMedlemmer();
-                }
-                case 3 ->{
-                    søgMedlem();
-                }
-                case 4 -> {
-                    redigerMedlem();
-                    dataÆndret = true;
-                }
-                case 5 -> {
-                    sletMedlem();
-                    dataÆndret = true;
-                }
-                case 6 -> kontigentFormatPrint();
-                case 7 -> sorterMedlemmer();
+            }
+            else if (menuValg == 2) {
+                kontigentFormatPrint();
+            }
+            else if (menuValg == 3) {
+                konkurrenceSvømmere();
             }
             if (dataÆndret) {
                 delfinen.gemData();
             }
         } while (menuValg != 9);
     }
+
 
     public void tilfoejMedlem() {
         System.out.println("Navn:");
@@ -122,21 +133,23 @@ public class Userinterface {
         }
     }
 
+
     public void visMedlemmer() {
         try {
-            formatPrint(delfinen.læsData()); //System.out.println(delfinen.læsData()); //Viser alle medlemmer fra csv filen
+            formatPrint(delfinen.database.getMedlemDB());//formatPrint(delfinen.læsData()); //Viser alle medlemmer fra csv filen
         }
         catch (Exception e) {
             System.out.println("Fil kunne ikke findes");
         }
     }
 
+
     public void søgMedlem() {
-        System.out.println("Indtast navn på medlem");
+        System.out.println("Indtast ID på medlem");
         scanner.nextLine(); //Scanner bug
-        String navn = scanner.nextLine();
+        String ID = scanner.nextLine();
         try {
-            Medlem m = delfinen.database.findMedlem(navn);
+            Medlem m = delfinen.database.findMedlem(ID);
             if (m != null){
                 System.out.println(m);
             }
@@ -149,12 +162,13 @@ public class Userinterface {
         }
     }
 
+
     public void redigerMedlem() {
-        System.out.println("Indtast navn på medlem");
+        System.out.println("Indtast ID på medlem");
         scanner.nextLine();
-        String navn = scanner.nextLine();
+        String ID = scanner.nextLine();
         try {
-            Medlem m = delfinen.database.findMedlem(navn);
+            Medlem m = delfinen.database.findMedlem(ID);
             if (m == null) {
                 throw new NullPointerException();
             }
@@ -236,14 +250,15 @@ public class Userinterface {
         }
     }
 
+
     public void sletMedlem(){
-        System.out.println("Indtast navn på medlem du vil slette");
+        System.out.println("Indtast ID på medlemmet du vil slette");
         scanner.nextLine();
-        String navn = scanner.nextLine();
+        String ID = scanner.nextLine();
         try {
-            Medlem m = delfinen.database.findMedlem(navn);
+            Medlem m = delfinen.database.findMedlem(ID);
             System.out.println("\nSlettet: " + m.getNavn());
-            delfinen.database.sletMedlem(m.getNavn());
+            delfinen.database.sletMedlem(m.getID());
         }
         catch (NullPointerException e){
             System.out.println("Medlem kunne ikke findes ");
@@ -251,11 +266,11 @@ public class Userinterface {
     }
 
 
-    public void sorterMedlemmer() {
+    public void konkurrenceSvømmere() {
         System.out.println("""
-                        Hvad vil du ændre?
-                        1. Alder
-                        2. Ikke lavet endnu
+                        Hvad ønsker du at se?
+                        1. Sorter efter alder
+                        2. Vis oversigt af top 5 svømmere inden for hver svømmedisciplin
                         """);
         scanner.nextLine();
         int brugerInput = readInt();
@@ -271,11 +286,9 @@ public class Userinterface {
             String text = scanner.next();
             System.out.println(text + " " + "Invalid data, enter a valid integer.");
         }
-        //int i = scanner.nextInt();
-        //scanner.nextLine();
-        //return i;
         return scanner.nextInt();
     }
+
 
     private boolean readBool(String s) {
         boolean bool = false;
@@ -289,38 +302,28 @@ public class Userinterface {
         return bool;
     }
 
+
     private void formatPrint(ArrayList<Medlem> sorteringList) {
-        System.out.printf("┃ %-20s │ %-15s │ %-25s │ %-12s │ %-15s ┃ %-15s ┃%n", "Navn", "Fødselsdato", "E-mail", "Aktivitet", "Køn", "Svømmedisciplin");
+        System.out.printf("┃ %-10s ┃ %-20s │ %-15s │ %-25s │ %-12s │ %-15s ┃ %-15s ┃%n", "ID", "Navn", "Fødselsdato", "E-mail", "Aktivitet", "Køn", "Svømmedisciplin");
         for (Medlem m : sorteringList) {
             if (m instanceof KonkurrenceMedlem km){
-                System.out.printf("┃ %-20s │ %-15s │ %-25s │ %-12s │ %-15s ┃ %-15s ┃%n", km.getNavn(), km.getFødselsdato(),
+                System.out.printf("┃ %-10s ┃ %-20s │ %-15s │ %-25s │ %-12s │ %-15s ┃ %-15s ┃%n", km.getID(), km.getNavn(), km.getFødselsdato(),
                         km.getEmail(), km.getErAktiv(), km.getKøn(), km.getDiscipliner());
             }
             else {
-                System.out.printf("┃ %-20s │ %-15s │ %-25s │ %-12s │ %-15s ┃ %-15s ┃%n", m.getNavn(), m.getFødselsdato(), m.getEmail(), m.getErAktiv(), "", "");
+                System.out.printf("┃ %-10s ┃ %-20s │ %-15s │ %-25s │ %-12s │ %-15s ┃ %-15s ┃%n", m.getID(), m.getNavn(), m.getFødselsdato(), m.getEmail(), m.getErAktiv(), "", "");
             }
         }
     }
 
-/*    private void kontigentFormatPrint () {
-        try {
-            for (Medlem m : delfinen.læsData()){
-                System.out.printf("%-15s %15s %20s %n", "Navn: " + m.getNavn(), "Alder: " + m.getAlder(), "Kontigent: " + m.beregnKontigent());
-            }
-            System.out.printf("%-20s %n%n", "Samlet årlig kontigent: " + delfinen.database.beregnSamletKontigent());
-        }
-        catch (Exception e) {
-            System.out.println("Fil kunne ikke findes");
-        }
-    }*/
 
     private void kontigentFormatPrint () {
         try {
-            for (Medlem m : delfinen.læsData()){
-                if (!m.getHarGæld())
-                System.out.printf("%-15s %15s %20s %n", "Navn: " + m.getNavn(), "Alder: " + m.getAlder(), "Kontigent: " + m.beregnKontigent());
-                else
+            for (Medlem m : delfinen.database.getMedlemDB()){
+                if (m.getHarGæld())
                     System.out.printf("%-15s %15s %20s %n", "Navn: " + m.getNavn(), "Alder: " + m.getAlder(), "Gæld: " + m.beregnGæld());
+                else
+                    System.out.printf("%-15s %15s %20s %n", "Navn: " + m.getNavn(), "Alder: " + m.getAlder(), "Kontigent: " + m.beregnKontigent());
             }
             System.out.printf("%-20s %n%n", "Samlet årlig kontigent: " + delfinen.database.beregnSamletBalance());
         }

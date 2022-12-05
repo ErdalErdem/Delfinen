@@ -94,7 +94,7 @@ public class FileHandler {
     }
 
     public boolean parseBoolean(String s) {
-        boolean bool = Boolean.parseBoolean(s);
+        //boolean bool = Boolean.parseBoolean(s);
         return s.equals("Aktiv");
     }
 

@@ -3,23 +3,27 @@ package Medlem;
 import java.time.LocalDate;
 import java.time.Period;
 import java.time.format.DateTimeFormatter;
+import java.util.UUID;
 
 public class Medlem {
 
     private String navn;
+    private final String ID;
     private int alder; //Ændr til fødselsdato
     private String fødselsdato;
-
     private String email;
     private boolean erAktiv;
     private boolean harGæld;
 
+    UUID uuid = UUID.randomUUID();
     public Medlem(String navn, String fødselsdato, String email, boolean erAktiv) {
         this.navn = navn;
+        this.ID = uuid.toString().replace("-","").substring(0,8);
         this.fødselsdato = fødselsdato;
         this.email = email;
         this.alder = beregnAlder(this.fødselsdato); //Bruges til kontigent/statistik, bruges ikke i brugeroverfladen
         this.erAktiv = erAktiv;
+        this.harGæld = false;
     }
 
     public String getNavn() {
@@ -29,7 +33,7 @@ public class Medlem {
     public void setNavn(String navn) {
         this.navn = navn;
     }
-
+    public String getID() {return ID;}
     public String getFødselsdato() {
         return fødselsdato;
     }
@@ -96,18 +100,17 @@ public class Medlem {
         int gæld = 0;
         if (harGæld) {
             if (alder < 18) { //Junior
-                gæld = -1000;
+                gæld = 1000;
             } else if (alder > 60) { //Senior over 60 år
-                gæld = -1200;
+                gæld = 1200;
             } else if (!erAktiv) { //Passiv medlemskab
-                gæld = -500;
+                gæld = 500;
             } else { //Aktiv senior medlem
-                gæld = -1600;
+                gæld = 1600;
             }
         }
         return gæld;
     }
-
 
     public String boolToWord(boolean bool){
         return (bool ? "Aktiv":"Passiv");
@@ -115,7 +118,6 @@ public class Medlem {
 
     @Override
     public String toString() {
-        return "Navn: " + navn + " \nFødselsdato: " + fødselsdato + " \nE-mail: " + email +  " \nAlder: " + alder + " \nAktivitet: " + boolToWord(erAktiv);
+        return "ID: " + ID + " \nNavn: " + navn + " \nFødselsdato: " + fødselsdato + " \nE-mail: " + email +  " \nAlder: " + alder + " \nAktivitet: " + boolToWord(erAktiv);
     }
-
 }

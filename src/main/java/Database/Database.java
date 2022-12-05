@@ -21,37 +21,29 @@ public class Database {
     }
 
 
-
-    public Medlem findMedlem(String navn){
+    public Medlem findMedlem(String ID){
         for (Medlem m : medlemDB){
-            if (m.getNavn().equals(navn)){
+            if (m.getID().equals(ID)){
                 return m;
             }
         }
         return null;
     }
 
-    public void sletMedlem (String navn){
+    public void sletMedlem (String ID){
         for (int i = 0; i < medlemDB.size(); i++){
             Medlem medlem = medlemDB.get(i);
-            if (medlem.getNavn().equals(navn)){
+            if (medlem.getID().equals(ID)){
                 medlemDB.remove(medlem);
             }
         }
     }
 
-    public int beregnSamletKontigent() { //Kasserer metode
-        int samletKontigent = 0;
-        for (Medlem m : medlemDB){
-            samletKontigent += m.beregnKontigent();
-        }
-        return samletKontigent;
-    }
-
     public int beregnSamletBalance() {
         int balance = 0;
         for (Medlem m : medlemDB){
-            balance += m.beregnKontigent() + m.beregnGæld() ;
+            if (!m.getHarGæld())
+                balance += m.beregnKontigent();
         }
         return balance;
     }

@@ -36,10 +36,9 @@ public class KonkurrenceMedlem extends Medlem {
         }
 
 
-
     @Override
     public String toString() {
-        return "Navn: " + getNavn() + " \nFødselsdato: " + getFødselsdato() + " \nE-mail: " + getEmail() + " \nAlder: " + getAlder() +
+        return "ID: " + getID() + " \nNavn: " + getNavn() + " \nFødselsdato: " + getFødselsdato() + " \nE-mail: " + getEmail() + " \nAlder: " + getAlder() +
                 " \nAktivitet: " + getErAktiv() + " \nKøn: " + køn + " \nDisciplin: " + disciplin;
     }
 
