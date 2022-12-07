@@ -1,6 +1,5 @@
 package Delfinen;
 
-import java.io.FileNotFoundException;
 import java.util.*;
 import Medlem.*;
 import Database.Database;

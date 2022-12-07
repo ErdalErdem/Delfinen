@@ -5,7 +5,7 @@ import Delfinen.*;
 import Medlem.*;
 
 public class Userinterface {
-    private Delfinen delfinen = new Delfinen();
+    private final Delfinen delfinen = new Delfinen();
 
     Scanner scanner;
 
@@ -38,7 +38,7 @@ public class Userinterface {
             System.out.println("""
                     1. Vis medlem oplysninger (Formand)
                     2. Vis årlig indtægt (Kasserer)
-                    3. Vis konkurrencesvømmer statistik (Træner)
+                    3. Vis konkurrencesvømmer (Træner)
                     9. Afslut""");
 
             menuValg = readInt();
@@ -136,7 +136,7 @@ public class Userinterface {
 
     public void visMedlemmer() {
         try {
-            formatPrint(delfinen.database.getMedlemDB());//formatPrint(delfinen.læsData()); //Viser alle medlemmer fra csv filen
+            formatPrint(delfinen.database.getMedlemDB()); //Viser alle medlemmer fra csv filen gennem databasen
         }
         catch (Exception e) {
             System.out.println("Fil kunne ikke findes");
@@ -268,18 +268,78 @@ public class Userinterface {
 
     public void konkurrenceSvømmere() {
         System.out.println("""
+                        Velkommen til træner menuen. Her kan du indtaste info på konkurrencesvømmere
+                        og se svømmerne sorteret af alder eller top 5 svømmere indenfor hver svømmedisciplin.
+                        Et medlems træningsresultater og konkurrence info skal manuelt indtastes.
                         Hvad ønsker du at se?
                         1. Sorter efter alder
-                        2. Vis oversigt af top 5 svømmere inden for hver svømmedisciplin
+                        2. Indtast konkurrencesvømmer oplysninger
+                        3. Vis oversigt af top 5 svømmere inden for hver svømmedisciplin
                         """);
         scanner.nextLine();
         int brugerInput = readInt();
         switch (brugerInput) {
-            case 1 -> alderFormatPrint(delfinen.sorterAlder(delfinen.læsData())); //System.out.println(delfinen.sorterAlder(delfinen.læsData()));
-            case 2 -> System.out.println("Ikke implementeret endnu");
+            case 1 -> alderFormatPrint(delfinen.sorterAlder(delfinen.læsData()));
+            case 2 -> konkurrenceSvømmereInfo();
+            case 3 -> {
+                for (KonkurrenceMedlem.Discipliner d : KonkurrenceMedlem.Discipliner.values()){
+                    System.out.println("Top 5 " + d.toString() + " træningsresultater:");
+                    ArrayList<KonkurrenceMedlem> top5 = delfinen.database.bedsteSvømmere(d.toString());
+                    top5FormatPrint(top5);
+                }
+            }
         }
     }
 
+    public void konkurrenceSvømmereInfo() {
+        System.out.println("""
+                Hvad ønsker du at registrere?
+                1. Tilføj træningsresultat og dato
+                2. Register konkurrence, stævne, placering og tid
+                """);
+        scanner.nextLine();
+        int brugerInput = readInt();
+        switch (brugerInput) {
+            case 1 -> {
+                System.out.println("Indtast ID på konkurrencesvømmer");
+                scanner.nextLine();
+                String IDnavn = scanner.nextLine();
+                Medlem m = delfinen.database.findMedlem(IDnavn);
+                if (m instanceof KonkurrenceMedlem km) {
+                    System.out.println("Indtast træningsresultat for svømmedisciplin: " + km.getDiscipliner());
+                    int tr = readInt();
+                    km.setTræningsresultat(tr);
+                    km.setDato();
+                    System.out.println("ID: " + km.getID() + " \nNavn: " + km.getNavn() + " \nTilføjet træningsresultat: " + tr + " \nDato: " + km.getDato());
+                } else {
+                    System.out.println("Medlem er ikke et konkurrencemedlem");
+                }
+            }
+            case 2 -> {
+                    System.out.println("Indtast ID på konkurrencesvømmer");
+                    scanner.nextLine();
+                    String IDnavn = scanner.nextLine();
+                    Medlem m = delfinen.database.findMedlem(IDnavn);
+                    if (m instanceof KonkurrenceMedlem km) {
+                        System.out.println("Indtast navn på konkurrence");
+                        String k = scanner.nextLine();
+                        km.setKonkurrence(k);
+                        System.out.println("Indtast stævne");
+                        String stævne = scanner.nextLine();
+                        km.setStævne(stævne);
+                        System.out.println("Indtast placering");
+                        int placering = readInt();
+                        km.setPlacering(placering);
+                        System.out.println("Indtast tid i sekunder");
+                        int tid = readInt();
+                        km.setTid(tid);
+                        System.out.println("ID: " + km.getID() + " \nNavn: " + km.getNavn() + " \nKonkurrence: " + k + " \nStævne: " + stævne + " \nPlacering: " + placering + " \nTid: " + km.konverterTid(tid));
+                    } else {
+                        System.out.println("Medlem er ikke et konkurrencemedlem");
+                    }
+                }
+            }
+        }
 
     private int readInt() {
         while (!scanner.hasNextInt()) {
@@ -318,7 +378,10 @@ public class Userinterface {
 
 
     private void kontigentFormatPrint () {
+        System.out.println("Forneden ses den årlige indtægt per medlem og sammenlagt. " +
+                "\nLæg mærke til at restance funktionen vises kun når et medlem er sat i gæld manuelt fra menuen");
         try {
+            System.out.printf("%-15s %15s %20s %n", "Navn", "Alder", "Kontigent/Gæld");
             for (Medlem m : delfinen.database.getMedlemDB()){
                 if (m.getHarGæld())
                     System.out.printf("%-15s %15s %20s %n", "Navn: " + m.getNavn(), "Alder: " + m.getAlder(), "Gæld: " + m.beregnGæld());
@@ -333,19 +396,32 @@ public class Userinterface {
     }
 
     private void alderFormatPrint(ArrayList<KonkurrenceMedlem> sorteringList) {
-        System.out.printf("┃ %-20s │ %-15s │ %-25s │ %-12s │ %-15s ┃ %-15s ┃%n", "Navn", "Fødselsdato", "E-mail", "Aktivitet", "Køn", "Svømmedisciplin");
+        System.out.printf("┃ %-10s ┃ %-20s │ %-15s │ %-25s │ %-12s │ %-15s ┃ %-15s ┃%n", "ID", "Navn", "Fødselsdato", "E-mail", "Aktivitet", "Køn", "Svømmedisciplin");
         for (KonkurrenceMedlem km : sorteringList) {
             if (km.getAlder() < 18){
-                System.out.printf("┃ %-20s │ %-15s │ %-25s │ %-12s │ %-15s ┃ %-15s ┃%n", "Junior: " + km.getNavn(), km.getFødselsdato(),
+                System.out.printf("┃ %-10s ┃ %-20s │ %-15s │ %-25s │ %-12s │ %-15s ┃ %-15s ┃%n", km.getID(), "Junior: " + km.getNavn(), km.getFødselsdato(),
                         km.getEmail(), km.getErAktiv(), km.getKøn(), km.getDiscipliner());
             }
             else if (km.getAlder() > 18){
-                System.out.printf("┃ %-20s │ %-15s │ %-25s │ %-12s │ %-15s ┃ %-15s ┃%n", "Senior: " + km.getNavn(), km.getFødselsdato(),
+                System.out.printf("┃ %-10s ┃ %-20s │ %-15s │ %-25s │ %-12s │ %-15s ┃ %-15s ┃%n", km.getID(), "Senior: " + km.getNavn(), km.getFødselsdato(),
                         km.getEmail(), km.getErAktiv(), km.getKøn(), km.getDiscipliner());
             }
         }
     }
 
+    private void top5FormatPrint(ArrayList<KonkurrenceMedlem> sorteringList) { //Sorterer de bedste 5 svømmere i hver svømmedisciplin
+        System.out.printf("┃ %-10s ┃ %-20s │ %-15s │ %-25s │ %-12s │ %-15s ┃ %-18s ┃ %-15s ┃%n", "ID", "Navn", "Fødselsdato", "E-mail", "Køn", "Svømmedisciplin", "Træningsresultat", "Dato");
+        for (KonkurrenceMedlem km : sorteringList){
+            if (km.getAlder() < 18){
+                System.out.printf("┃ %-10s ┃ %-20s │ %-15s │ %-25s │ %-12s │ %-15s ┃ %-18s ┃ %-15s ┃%n", km.getID(), "Junior: " + km.getNavn(), km.getFødselsdato(),
+                        km.getEmail(), km.getKøn(), km.getDiscipliner(), km.konverterTid(km.getTræningsresultat()), km.getDato());
+            }
+            else if (km.getAlder() > 18){
+                System.out.printf("┃ %-10s ┃ %-20s │ %-15s │ %-25s │ %-12s │ %-15s ┃ %-18s ┃ %-15s ┃%n", km.getID(), "Senior: " + km.getNavn(), km.getFødselsdato(),
+                        km.getEmail(), km.getKøn(), km.getDiscipliner(), km.konverterTid(km.getTræningsresultat()), km.getDato());
+            }
+        }
+    }
 }
 
 

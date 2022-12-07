@@ -62,5 +62,43 @@ public class Database {
         return alderListe;
     }
 
+/*    public ArrayList<KonkurrenceMedlem> sorterResultater(ArrayList<KonkurrenceMedlem> usorteretListe) {
+        ArrayList<KonkurrenceMedlem> resultatListe = new ArrayList<>();
+        for (Medlem  m : usorteretListe) {
+            if (m instanceof KonkurrenceMedlem) {
+                KonkurrenceMedlem km = (KonkurrenceMedlem) m;
+                resultatListe.add(km);
+            }
+        }
+        Collections.sort(resultatListe, new ResultatComparator());
+        return resultatListe;
+    }*/
 
+    public void sorterResultater(ArrayList<KonkurrenceMedlem> usorteretListe) {
+        usorteretListe.sort(new ResultatComparator());
+    }
+
+
+    public ArrayList<KonkurrenceMedlem> bedsteSvømmere(String disciplinnavn) {
+        ArrayList<KonkurrenceMedlem> bedsteSvømmereListe = new ArrayList<>();
+        for (Medlem m : medlemDB){
+            if (m instanceof KonkurrenceMedlem km){
+                for (KonkurrenceMedlem.Discipliner d : KonkurrenceMedlem.Discipliner.values()){ //Looper igennem konstanterne i Discipliner
+                    if (d.name().equals(disciplinnavn) && km.getDiscipliner().equals(d.valueOf(disciplinnavn))){
+                        bedsteSvømmereListe.add(km);
+                        sorterResultater(bedsteSvømmereListe);
+                        for (int i = 0; i < bedsteSvømmereListe.size(); i++){
+                            if (bedsteSvømmereListe.get(i).getTræningsresultat() == 0) { //Fjerner medlemmer med træningsresultat 0
+                                bedsteSvømmereListe.remove(i);
+                            }
+                            if (i > 4){ //Hvis listen er større end 5
+                                bedsteSvømmereListe.remove(i);
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        return bedsteSvømmereListe;
+    }
 }

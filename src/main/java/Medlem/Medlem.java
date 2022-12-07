@@ -3,13 +3,14 @@ package Medlem;
 import java.time.LocalDate;
 import java.time.Period;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.UUID;
 
 public class Medlem {
 
     private String navn;
     private final String ID;
-    private int alder; //Ændr til fødselsdato
+    private int alder;
     private String fødselsdato;
     private String email;
     private boolean erAktiv;
