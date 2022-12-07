@@ -1,7 +1,5 @@
 package Medlem;
 
-import java.time.LocalDate;
-import java.util.ArrayList;
 
 public class KonkurrenceMedlem extends Medlem {
 

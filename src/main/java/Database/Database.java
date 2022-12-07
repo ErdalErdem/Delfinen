@@ -53,8 +53,7 @@ public class Database {
     public ArrayList<KonkurrenceMedlem> sorterAlder(ArrayList<Medlem> usorteretListe) {
         ArrayList<KonkurrenceMedlem> alderListe = new ArrayList<>();
         for (Medlem  m : usorteretListe) {
-            if (m instanceof KonkurrenceMedlem) {
-                KonkurrenceMedlem km = (KonkurrenceMedlem) m;
+            if (m instanceof KonkurrenceMedlem km) {
                 alderListe.add(km);
             }
         }
@@ -62,22 +61,9 @@ public class Database {
         return alderListe;
     }
 
-/*    public ArrayList<KonkurrenceMedlem> sorterResultater(ArrayList<KonkurrenceMedlem> usorteretListe) {
-        ArrayList<KonkurrenceMedlem> resultatListe = new ArrayList<>();
-        for (Medlem  m : usorteretListe) {
-            if (m instanceof KonkurrenceMedlem) {
-                KonkurrenceMedlem km = (KonkurrenceMedlem) m;
-                resultatListe.add(km);
-            }
-        }
-        Collections.sort(resultatListe, new ResultatComparator());
-        return resultatListe;
-    }*/
-
     public void sorterResultater(ArrayList<KonkurrenceMedlem> usorteretListe) {
         usorteretListe.sort(new ResultatComparator());
     }
-
 
     public ArrayList<KonkurrenceMedlem> bedsteSvømmere(String disciplinnavn) {
         ArrayList<KonkurrenceMedlem> bedsteSvømmereListe = new ArrayList<>();

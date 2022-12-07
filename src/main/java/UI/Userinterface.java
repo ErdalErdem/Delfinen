@@ -88,7 +88,7 @@ public class Userinterface {
 
 
     public void tilfoejMedlem() {
-        System.out.println("Navn:");
+        System.out.println("Indtast navn:");
         scanner.nextLine();
         String navn = scanner.nextLine();
 
@@ -334,7 +334,8 @@ public class Userinterface {
                         System.out.println("Indtast tid i sekunder");
                         int tid = readInt();
                         km.setTid(tid);
-                        System.out.println("ID: " + km.getID() + " \nNavn: " + km.getNavn() + " \nKonkurrence: " + k + " \nStævne: " + stævne + " \nPlacering: " + placering + " \nTid: " + km.konverterTid(tid));
+                        System.out.println("ID: " + km.getID() + " \nNavn: " + km.getNavn() + " \nKonkurrence: " + k +
+                                " \nStævne: " + stævne + " \nPlacering: " + placering + " \nTid: " + km.konverterTid(tid));
                         dataÆndret = true;
                     } else {
                         System.out.println("Medlem er ikke et konkurrencemedlem");
@@ -375,7 +376,8 @@ public class Userinterface {
                         km.getDato(), km.getKonkurrence(), km.getStævne(), km.getPlacering(), km.konverterTid(km.getTid()));
             }
             else {
-                System.out.printf("┃ %-10s ┃ %-15s │ %-15s │ %-25s │ %-10s │ %-15s ┃ %-15s ┃ %-18s ┃ %-10s ┃ %-15s ┃ %-15s ┃ %-10s ┃ %-8s ┃%n", m.getID(), m.getNavn(), m.getFødselsdato(), m.getEmail(), m.getErAktiv(),
+                System.out.printf("┃ %-10s ┃ %-15s │ %-15s │ %-25s │ %-10s │ %-15s ┃ %-15s ┃ %-18s ┃ %-10s ┃ %-15s ┃ %-15s ┃ %-10s ┃ %-8s ┃%n",
+                        m.getID(), m.getNavn(), m.getFødselsdato(), m.getEmail(), m.getErAktiv(),
                         "", "", "", "", "", "", "", "");
             }
         }
@@ -405,12 +407,14 @@ public class Userinterface {
                 "E-mail", "Aktivitet", "Køn", "Svømmedisciplin", "Træningsresultat", "Dato", "Konkurrence", "Stævne", "Placering", "Tid");
         for (KonkurrenceMedlem km : sorteringList) {
             if (km.getAlder() < 18){
-                System.out.printf("┃ %-10s ┃ %-15s │ %-15s │ %-25s │ %-10s │ %-15s ┃ %-15s ┃ %-18s ┃ %-10s ┃ %-15s ┃ %-15s ┃ %-10d ┃ %-8s ┃%n", km.getID(), "Junior: " + km.getNavn(), km.getFødselsdato(),
+                System.out.printf("┃ %-10s ┃ %-15s │ %-15s │ %-25s │ %-10s │ %-15s ┃ %-15s ┃ %-18s ┃ %-10s ┃ %-15s ┃ %-15s ┃ %-10d ┃ %-8s ┃%n",
+                        km.getID(), "Junior: " + km.getNavn(), km.getFødselsdato(),
                         km.getEmail(), km.getErAktiv(), km.getKøn(), km.getDiscipliner(), km.konverterTid(km.getTræningsresultat()),
                         km.getDato(), km.getKonkurrence(), km.getStævne(), km.getPlacering(), km.konverterTid(km.getTid()));
             }
             else if (km.getAlder() > 18){
-                System.out.printf("┃ %-10s ┃ %-15s │ %-15s │ %-25s │ %-10s │ %-15s ┃ %-15s ┃ %-18s ┃ %-10s ┃ %-15s ┃ %-15s ┃ %-10d ┃ %-8s ┃%n", km.getID(), "Senior: " + km.getNavn(), km.getFødselsdato(),
+                System.out.printf("┃ %-10s ┃ %-15s │ %-15s │ %-25s │ %-10s │ %-15s ┃ %-15s ┃ %-18s ┃ %-10s ┃ %-15s ┃ %-15s ┃ %-10d ┃ %-8s ┃%n",
+                        km.getID(), "Senior: " + km.getNavn(), km.getFødselsdato(),
                         km.getEmail(), km.getErAktiv(), km.getKøn(), km.getDiscipliner(), km.konverterTid(km.getTræningsresultat()),
                         km.getDato(), km.getKonkurrence(), km.getStævne(), km.getPlacering(), km.konverterTid(km.getTid()));
             }
