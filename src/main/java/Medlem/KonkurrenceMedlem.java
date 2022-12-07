@@ -28,6 +28,10 @@ public class KonkurrenceMedlem extends Medlem {
         this.disciplin = disciplin;
         this.træningsresultat = 0;
         this.dato = "";
+        this.konkurrence = "";
+        this.stævne = "";
+        this.placering = 0;
+        this.tid = 0;
     }
 
     public String getKøn() {
@@ -60,8 +64,8 @@ public class KonkurrenceMedlem extends Medlem {
         return dato;
     }
 
-    public void setDato() {
-        this.dato = LocalDate.now().toString();;
+    public void setDato(String s) {
+        this.dato = s;
     }
 
     public String getKonkurrence() {
