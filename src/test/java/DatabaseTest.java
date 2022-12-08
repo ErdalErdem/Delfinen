@@ -9,7 +9,7 @@ import java.util.Arrays;
 import static org.junit.jupiter.api.Assertions.*;
 
 class DatabaseTest {
-    Database database;
+    Database database = new Database();
 
     @BeforeEach
     void set() {
@@ -49,11 +49,11 @@ class DatabaseTest {
         database.tilfoejMedlem(m);
 
         // Act
-        Medlem resultat = database.findMedlem("Hans");
+        Medlem resultat = database.findMedlem(m.getID());
 
 
         // Assert
-        assertEquals(resultat.getNavn(), m.getNavn());
+        assertEquals(resultat.getID(), m.getID());
     }
 
     @Test
@@ -69,13 +69,48 @@ class DatabaseTest {
         // Act
 
         //Medlem faktiskStørrelse = database.findMedlem("Hans");
-        database.sletMedlem("Hans");
+        database.sletMedlem(m.getID());
 
         // Assert
 
-        //assertEquals(forventetStørrelse, faktiskStørrelse);
-        assertEquals(forventetStørrelse, database.getMedlemDB().size());
+        int aktuelStørrelse = database.getMedlemDB().size();
 
+        //assertEquals(forventetStørrelse, faktiskStørrelse);
+        assertEquals(forventetStørrelse, aktuelStørrelse);
+
+    }
+
+    @Test
+    void beregnKontigent() {
+        Medlem m0 = new Medlem("Per", "03/02/2009", "PerAndersen@Gmail.com", true);
+        Medlem m1 = new Medlem("Hans", "03/02/1997", "Hans@Gmail.com", true);
+        Medlem m2 = new Medlem("Lars", "08/09/1986","LarsKristensen@outlook.dk", false);
+
+        database.tilfoejMedlem(m0);
+        database.tilfoejMedlem(m1);
+        database.tilfoejMedlem(m2);
+
+        int aktuelKontigent = database.beregnSamletBalance();
+        int forventetKontigent = 3100;
+
+        assertEquals(forventetKontigent, aktuelKontigent);
+    }
+
+    @Test
+    void beregnBalance() {
+        Medlem m0 = new Medlem("Per", "03/02/2009", "PerAndersen@Gmail.com", true);
+        Medlem m1 = new Medlem("Hans", "03/02/1997", "Hans@Gmail.com", true);
+        Medlem m2 = new Medlem("Lars", "08/09/1986","LarsKristensen@outlook.dk", false);
+        m1.setHarGæld(true);
+
+        database.tilfoejMedlem(m0);
+        database.tilfoejMedlem(m1);
+        database.tilfoejMedlem(m2);
+
+        int aktuelKontigent = database.beregnSamletBalance();
+        int forventetKontigent = 1500;
+
+        assertEquals(forventetKontigent, aktuelKontigent);
     }
 
 }

@@ -14,7 +14,6 @@ public class Delfinen {
         return fileHandler.læsData();
     }
 
-
     public void opdaterData() {
         try {
             if (fileHandler.filEksisterer() && !læsData().isEmpty() && database.getMedlemDB().isEmpty()) {
